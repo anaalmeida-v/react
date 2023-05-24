@@ -12,6 +12,17 @@ const Events = () => {
                 {/*se parenteses são colocados logo após o evento, evento será disparado após a
                 leitura do mesmo*/}
             </div>
+            <div>
+                <button onClick={()=>{ console.log("Clicou!")}}>
+                    Clique aqui também!
+                </button>
+                <button onClick={() => {
+                    if(true){
+                        console.log("Isso não deveria existir")
+                    }
+                }}>Clique aqui, por favor.</button>
+            </div>
+            {/*Pode-se perceber que nesse caso, uma função distinta funcionaria melhor*/}
         </div>
     )
 }
