@@ -5,6 +5,7 @@ import TemplateExpressions from './components/TemplateExpressions';
 //styles / CSS
 import './App.css';
 import MyComponent from './components/MyComponent';
+import Events from './components/Events';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <FirstComponent />
       <TemplateExpressions />
       <MyComponent />
+      <Events />
     </div>
   );
 }
