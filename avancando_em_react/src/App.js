@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import './App.css';
 import City from './assets/city.jpg'
+import Fragments from './components/Fragments'
 import CarDetails from './components/CarDetails'
 import ConditionalRender from './components/ConditionalRender';
 import ListRender from './components/ListRender';
@@ -8,7 +9,7 @@ import ManageData from './components/ManageData';
 import ShowUserName from './components/ShowUserName';
 
 function App() {
-  const name = "Joaquim"
+  //const name = "Joaquim"
   const [userName] = useState("Maria")
 
   const cars = [
@@ -48,6 +49,8 @@ function App() {
         km={car.km}
         newCar={car.newCar}/>
       ))}
+      {/* fragments */}
+      <Fragments propFragment="teste"/>
     </div> 
   );
 }
