@@ -9,8 +9,21 @@ import ListRender from './components/ListRender';
 import ManageData from './components/ManageData';
 import ShowUserName from './components/ShowUserName';
 import ExecuteFunction from './components/ExecuteFunction';
+import ChangeMessageState from './components/ChangeMessageState';
+import Message from './components/Message';
+import UserDetails from './components/UserDetails';
 
 function App() {
+//desafio
+
+const users = [ 
+  {nome:"Ana", idade:17, profissão:"Programadora"},
+  {nome:"Vitor", idade:18, profissão:"Designer"},
+  {nome:"Gabriela", idade:20, profissao:"Professora"}
+]
+
+//desafio
+
   //const name = "Joaquim"
   const [userName] = useState("Maria")
 
@@ -22,6 +35,12 @@ function App() {
 
   function showMessage() {
     console.log('Evento do componente pai')
+  }
+
+  const [message, setMessage] = useState("")
+
+  const handleMessage = (msg) => {
+    setMessage(msg)
   }
 
   return (
@@ -66,6 +85,18 @@ function App() {
       </Container>
       {/* executar função */}
       <ExecuteFunction myFunction={showMessage}/>
+      {/* state lift */}
+      <Message msg={message}/>
+      <ChangeMessageState handleMessage={handleMessage}/>
+      {/* desafio */}
+      {users.map((user) => (
+        <UserDetails 
+        key = {user.nome}
+        nome={user.nome}
+        idade={user.idade}
+        profissao={user.profissao}
+        />
+      ))}
     </div> 
   );
 }
