@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import './App.css';
 import City from './assets/city.jpg'
+import Container from './components/Container'
 import Fragments from './components/Fragments'
 import CarDetails from './components/CarDetails'
 import ConditionalRender from './components/ConditionalRender';
@@ -51,6 +52,12 @@ function App() {
       ))}
       {/* fragments */}
       <Fragments propFragment="teste"/>
+      {/* children */}
+      <Container myValue="testing">
+        <p><strong>E este é o conteúdo</strong></p>
+      </Container><Container myValue="testing 2">
+        <h5>Testando o container</h5>
+      </Container>
     </div> 
   );
 }
