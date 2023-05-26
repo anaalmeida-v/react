@@ -6,6 +6,7 @@ function App() {
   const n = 15
   const [name] = useState("Aninha")
 
+  const redTitle = true
   return (
     <div className="App">
       {/* CSS Global */}
@@ -28,6 +29,8 @@ function App() {
       }
       >
         Teste nome</h2>
+        {/* Classe dinâmica */}
+        <h2 className={redTitle ? "red-title" : "title"}>Este título terá classe dinâmica</h2>
     </div>
   );
 }
