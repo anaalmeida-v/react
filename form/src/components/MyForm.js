@@ -7,7 +7,8 @@ const MyForm = ({ user }) => {
   const [name, setName] = useState(user ? user.name : '')
   const [email, setEmail] = useState(user ? user.email : '')
 
-  const[bio, setBio] = useState()
+  const [bio, setBio] = useState(user ? user.bio : '')
+
 
   const handleName = (e) => {
     setName(e.target.value)
@@ -20,11 +21,12 @@ const MyForm = ({ user }) => {
     e.preventDefault()
     //preventDefault - para o envio, form não recarrega a pág.
     console.log("Enviando form")
-    console.log(name, email, bio)
+    console.log(name,  '\n', email,  '\n', bio,  '\n', role)
 
     //7 - limpar formulário
     setName("")
     setEmail("")
+
     setBio("")
   }
 
@@ -53,12 +55,26 @@ const MyForm = ({ user }) => {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
+        </label>      
+          {/* 8 - textarea */}
+          <label>
+          <textarea
+            name="bio"
+            placeholder="Descrição do usuário"
+            onChange={(e) => setBio(e.target.value)}
+            value={bio}
+          ></textarea>
         </label>
-        {/* 8 - textarea */}
-        <textarea name="bio" placeholder="Descrição do usuário" onChange={(e) => setBio(e.target.value)} value={bio}>
-          <input type="submit" value="Enviar" />
-        </textarea>
-
+        {/* 9 -select */}
+        <label>
+          <span>Função do sistema</span>
+          <select name="role" onChange={(e) => setRole(e.target.value)} value={role}>
+            <option value="user">Usuário</option>
+            <option value="editor">Editor</option>
+            <option value="admin">Adiministrador</option>
+          </select>
+        </label>
+        <input type="submit" value="Enviar" />
       </form>
     </div>
   )
