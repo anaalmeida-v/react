@@ -1,5 +1,7 @@
+*{
+    list-style: none;
+}
+
 .detailscars{
-    padding: 10px;
-    color: #90d4d4;
-    background-color: #7edfdf;
+    border: 2px solid #ccc;
 }

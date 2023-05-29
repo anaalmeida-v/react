@@ -1,5 +1,5 @@
-import detalhesCarros from './components/detalhesCarros';
-import styles from'./App.css';
+import './App.css';
+import DetalhesCarros from './components/DetalhesCarros'
 
 function App() {
   const detailscars = [
@@ -11,8 +11,11 @@ function App() {
     <div className="App">
         <h2 className='app'>Challenge CSS</h2>
         {detailscars.map((cars) => (
-          <detalhesCarros
-            cars={cars} />
+          <DetalhesCarros
+            key={cars.id}
+            marca={cars.marca}
+            anoVeiculo={cars.anoVeiculo}
+            cor={cars.cor} />
         ))}
       </div>
   );
