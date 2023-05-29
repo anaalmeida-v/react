@@ -19,6 +19,10 @@ const MyForm = ({ user }) => {
     //preventDefault - para o envio, form não recarrega a pág.
     console.log("Enviando form")
     console.log(name, email)
+
+    //7 - limpar formulário
+    setName("")
+    setEmail("")
   }
 
   return (
