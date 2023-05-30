@@ -55,7 +55,7 @@ function App() {
 
     console.log(word, category)
     console.log(wordLetters)
-    wordLetters = wordLetters.map((l) => l.toLowercase())
+    wordLetters = wordLetters.map((l) => l.toLowerCase());
     {/* fará que independente da palavra, ela será normalizada, não tendo que ter obrigatóriamente
     uma letra maiúscula na frente*/}
 
