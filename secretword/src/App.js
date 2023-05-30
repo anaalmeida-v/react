@@ -11,12 +11,15 @@ import { wordsList } from "./data/word"
 import StartScreen from './components/StartScreen';
 import Game from './components/Game';
 import GameOver from './components/GameOver';
+import { clear } from '@testing-library/user-event/dist/clear';
 
 const stages = [
   { id: 1, name: "start" },
   { id: 2, name: "game" },
   { id: 3, name: "end" }
 ]
+
+const guessesQty = 3
 
 function App() {
 
@@ -29,7 +32,7 @@ function App() {
 
   const [guessedLetters, setGuessedLetters] = useState([])
   const [wrongLetters, setWrongLetters] = useState([])
-  const [guesses, setGuesses] = useState(3)
+  const [guesses, setGuesses] = useState(guessesQty)
   const [score, setScore] = useState(0)
 
   const pickWordAndCategory = () => {
@@ -94,15 +97,32 @@ function App() {
         ...actualWrongLetters,
         normalizedLetter,
       ])
+
+      setGuesses((actualGuesses) => actualGuesses -1)
     }
 
-    console.log(guessedLetters)
-    console.log(wrongLetters)
     //adicionando letras corretas e incorretas no console
   }
 
+  const clearLetterStates = () => {
+    setGuessedLetters([])//
+    setWrongLetters([])
+  }
+
+  useEffect(() => {
+    if(guesses === 0) {
+      //reset all states 
+      clearLetterStates()//limpando states do jogo
+
+      setGameStage(stages[2].name)//quando não há mais tentativas é encaminhado a tela de game over
+    }
+  }, [guesses])
+
   //restarts the game
   const retry = () => {
+    setScore(0)//reiniciando com pontuação 0
+    setGuesses(guessesQty)//e tentativas 3
+
     setGameStage(stages[0].name)
   }
 
