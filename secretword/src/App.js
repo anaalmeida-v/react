@@ -1,5 +1,5 @@
 //CSS
-import './App.css';
+import './App.css'
 
 //React
 import { useCallback, useEffect, useState } from 'react';

@@ -2,10 +2,18 @@ import { useState, useRef } from 'react'
 //css
 import './Game.css'
 
-const Game = ({ verifyLetter, pickedWord, pickedCategory, letters, guessedLetters, wrongLetters, guesses, score 
+const Game = ({
+  verifyLetter,
+  pickedWord,
+  pickedCategory,
+  letters,
+  guessedLetters,
+  wrongLetters,
+  guesses,
+  score
 }) => {
-  
-  const[letter, setLetter] = useState("")
+
+  const [letter, setLetter] = useState("")
   const letterInputRef = useRef(null)
 
   const handleSubmit = (e) => {
@@ -26,18 +34,24 @@ const Game = ({ verifyLetter, pickedWord, pickedCategory, letters, guessedLetter
       <h3 className='tip'>Dica sobre a palavra: <span>{pickedCategory}</span></h3>
       <p>Você ainda tem {guesses} tentativas(s).</p>
       <div className="wordContainer">
-        {letters.map((letter, i) => (
+        {letters.map((letter, i) =>
           guessedLetters.includes(letter)/*se a letra já foi adivinhada*/
             ? (<span key={i} className='letter'>{letter}</span>//retornar letra
             ) : (
               <span key={i} className='blankSquare'></span>//se não, retornar quadro branco
             )
-        ))}
+        )}
       </div>
       <div className="letterContainer">
         <p>Tente adivinhar uma letra da palavra:</p>
         <form onSubmit={handleSubmit}>
-          <input type="text" name='letter' maxLength="1" required onChange={(e) => setLetter(e.target.value)} value={letter} ref={letterInputRef }/>
+          <input type="text"
+            name="letter"
+            maxLength="1"
+            onChange={(e) => setLetter(e.target.value)}
+            required
+            value={letter} 
+            ref={letterInputRef} />
           {/* ref - funciona como um querySelector(seleciiona elemento no dom) */}
           <button>Jogar!</button>
         </form>
