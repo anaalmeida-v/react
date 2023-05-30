@@ -74,8 +74,31 @@ function App() {
 
   //process the letter input
   const verifyLetter = (letter) => {
-    console.log(letter)
 
+    const normalizedLetter = letter.toLowerCase()
+
+    //validação para visualizar se letra já foi utilizada
+    if (guessedLetters.includes(normalizedLetter) || wrongLetters.includes(normalizedLetter)
+    ) {
+      return
+    }
+
+    //push guessed letter or remove a guess
+    if (letters.includes(normalizedLetter)) {
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters,
+        normalizedLetter,
+      ])
+    } else {
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters,
+        normalizedLetter,
+      ])
+    }
+
+    console.log(guessedLetters)
+    console.log(wrongLetters)
+    //adicionando letras corretas e incorretas no console
   }
 
   //restarts the game
@@ -86,16 +109,16 @@ function App() {
   return (
     <div className="App">
       {gameStage === "start" && <StartScreen startGame={startGame} />}
-      {gameStage === "game" && 
-      <Game 
-        verifyLetter={verifyLetter}
-        pickedWord={pickedWord}//palavra escolhida
-        pickedCategory={pickedCategory}//categoria escolhida
-        letters={letters}//letras
-        guessedLetters={guessedLetters}//letras adivinhadas
-        wrongLetters={wrongLetters}//letras erradas
-        guesses={guesses}//palpites
-        score={score}//pontuação
+      {gameStage === "game" &&
+        <Game
+          verifyLetter={verifyLetter}
+          pickedWord={pickedWord}//palavra escolhida
+          pickedCategory={pickedCategory}//categoria escolhida
+          letters={letters}//letras
+          guessedLetters={guessedLetters}//letras adivinhadas
+          wrongLetters={wrongLetters}//letras erradas
+          guesses={guesses}//palpites
+          score={score}//pontuação
         />}
       {gameStage === "end" && <GameOver retry={retry} />}
     </div>
