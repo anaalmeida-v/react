@@ -140,7 +140,7 @@ function App() {
           guesses={guesses}//palpites
           score={score}//pontuação
         />}
-      {gameStage === "end" && <GameOver retry={retry} />}
+      {gameStage === "end" && <GameOver retry={retry} score={score}/>}
     </div>
   );
 }
