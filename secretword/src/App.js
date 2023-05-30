@@ -73,8 +73,9 @@ function App() {
   }
 
   //process the letter input
-  const verifyLetter = () => {
-    setGameStage(stages[2].name)
+  const verifyLetter = (letter) => {
+    console.log(letter)
+
   }
 
   //restarts the game
@@ -88,13 +89,13 @@ function App() {
       {gameStage === "game" && 
       <Game 
         verifyLetter={verifyLetter}
-        pickedWord={pickedWord}
-        pickedCategory={pickedCategory}
-        letters={letters}
-        guessedLetters={guessedLetters}
-        wrongLetters={wrongLetters}
-        guesses={guesses}
-        score={score}
+        pickedWord={pickedWord}//palavra escolhida
+        pickedCategory={pickedCategory}//categoria escolhida
+        letters={letters}//letras
+        guessedLetters={guessedLetters}//letras adivinhadas
+        wrongLetters={wrongLetters}//letras erradas
+        guesses={guesses}//palpites
+        score={score}//pontuação
         />}
       {gameStage === "end" && <GameOver retry={retry} />}
     </div>
