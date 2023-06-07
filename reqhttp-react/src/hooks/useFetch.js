@@ -10,11 +10,14 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
     const [method, setMethod] = useState(null)
     const [callFetch, setCallFetch] = useState(false)
 
+    //6 - loading
+    const [loading, setLoading] = useState(false)
+
     const httpConfig = (data, method) => {
-        if(method === "POST"){
+        if (method === "POST") {
             setConfig({
                 method,//valor ja esta sendo passado para funcao do escopo acima, entao nao precisa ser citado
-                headers:{
+                headers: {
                     "Content-type": "application/json"
                 },
                 body: JSON.stringify(data),//alterando as configs para json
@@ -24,15 +27,18 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
             setMethod(method)
         }
     }
-    
-    useEffect(() => {
 
+    useEffect(() => {
         const fetchData = async () => {
+
+            //6 - loading
+            setLoading(true)
             const res = await fetch(url)
 
             const json = await res.json()
 
             setData(json)
+            setLoading(false)
         }
         fetchData()
     }, [url, callFetch])//smp que houver a alteração os dados serão novamente chamados
@@ -55,5 +61,5 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
         httpRequest()
     }, [config, method, url])
 
-    return { data, httpConfig }//dados a serem utilizados na aplicacao
+    return { data, httpConfig, loading }//dados a serem utilizados na aplicacao
 }
