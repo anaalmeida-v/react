@@ -13,6 +13,9 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
     //6 - loading
     const [loading, setLoading] = useState(false)
 
+    //7 - tratando erros
+    const [error, setError] = useState(null)
+
     const httpConfig = (data, method) => {
         if (method === "POST") {
             setConfig({
@@ -33,11 +36,18 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
 
             //6 - loading
             setLoading(true)
-            const res = await fetch(url)
 
-            const json = await res.json()
+            try {
+                const res = await fetch(url)
 
-            setData(json)
+                const json = await res.json()
+
+                setData(json)
+            } catch(error){
+                console.log(error.message)
+
+                setError("Houve algum erro ao carregar os dados!")
+            }
             setLoading(false)
         }
         fetchData()
@@ -61,5 +71,5 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
         httpRequest()
     }, [config, method, url])
 
-    return { data, httpConfig, loading }//dados a serem utilizados na aplicacao
+    return { data, httpConfig, loading, error }//dados a serem utilizados na aplicacao
 }

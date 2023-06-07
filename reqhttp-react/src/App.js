@@ -76,8 +76,8 @@ function App() {
     <div className="App">
       <h1>Lista de produtos</h1>
       {/* 6 - state de loading */}
-      {loading && <p>Carregando dados...</p>}
-      {error && <p>{error}</p>}
+      {loading && <p>Carregando dados...</p>}{/*quando loading for true, exibe o parágrafo*/}
+      {error && <p>{error}</p>}{/*caso haja um erro, exibir a mensagem de erro criada no Fetch.js*/}
       <ul>
         {items &&//quando items forem preenchidos, map é executado
           items.map((product) => (//exibindo dados na tela
