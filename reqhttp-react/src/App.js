@@ -52,15 +52,16 @@ function App() {
     //   body: JSON.stringify(product),//dado ja existe, porém precisa ser enviado como json, aquii esta havendo a transformacao dele para json
     // });
 
-    // 3 - carregamento dinâmico
 
+    // 3 - carregamento dinâmico
+    
     //pega dados próprios que vem da requisição e envia para o front-end, com isso o envio de dados já é automático
     // const addedProduct = await res.json();
     
     // setProducts((prevProducts) => [...prevProducts, addedProduct]);
 
     // 5 - refatorar post
-    httpConfig(product, "POST");
+    httpConfig(product, "POST")//enviando para o http config os dados(product) e o "POST"para enviar
 
     setName("")
     setPrice("")//reseta state, e como state foi vinculado com input, input também reseta

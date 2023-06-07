@@ -3,8 +3,28 @@ import { useState, useEffect } from "react"
 //4 - custom hook
 export const useFetch = (url) => {//exporta funcao - puxa url da api
 
-    const[data, setData] = useState(null)//null pos ainda nao sabemos do que se trata(string, array)
+    const [data, setData] = useState(null)//null pos ainda nao sabemos do que se trata(string, array)
 
+    //5 - refatorando post
+    const [config, setConfig] = useState(null)
+    const [method, setMethod] = useState(null)
+    const [callFetch, setCallFetch] = useState(false)
+
+    const httpConfig = (data, method) => {
+        if(method === "POST"){
+            setConfig({
+                method,//valor ja esta sendo passado para funcao do escopo acima, entao nao precisa ser citado
+                headers:{
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(data),//alterando as configs para json
+
+            })
+
+            setMethod(method)
+        }
+    }
+    
     useEffect(() => {
 
         const fetchData = async () => {
@@ -15,7 +35,25 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
             setData(json)
         }
         fetchData()
-    }, [url])
+    }, [url, callFetch])//smp que houver a alteração os dados serão novamente chamados
 
-    return { data }//dados a serem utilizados na aplicacao
+    //5 - refatorando post
+    useEffect(() => {
+
+        const httpRequest = async () => {
+            if (method === "POST") {
+                let fetchOptions = [url, config]
+
+                const res = await fetch(...fetchOptions)
+
+                const json = await res.json()
+
+                setCallFetch(json)
+            }
+        }
+
+        httpRequest()
+    }, [config, method, url])
+
+    return { data, httpConfig }//dados a serem utilizados na aplicacao
 }
