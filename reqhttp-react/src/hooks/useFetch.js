@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 
 //4 - custom hook
 export const useFetch = (url) => {//exporta funcao - puxa url da api
@@ -14,7 +14,7 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
     const [loading, setLoading] = useState(false)
 
     //7 - tratando erros
-    const [error, setError] = useState(null)
+    const [error, setError] = useState(false)
 
     const httpConfig = (data, method) => {
         if (method === "POST") {
@@ -27,7 +27,7 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
 
             })
 
-            setMethod(method)
+            setMethod("POST")
         }
     }
 
@@ -37,17 +37,24 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
             //6 - loading
             setLoading(true)
 
+            // 8 - tratando erros
             try {
                 const res = await fetch(url)
 
                 const json = await res.json()
 
                 setData(json)
-            } catch(error){
+
+                setMethod(null)
+                // 8 - tratando erros
+                setError(null)
+            } catch (error) {
+
+                setError("Houve um erro ao carregar os dados!")
                 console.log(error.message)
 
-                setError("Houve algum erro ao carregar os dados!")
             }
+
             setLoading(false)
         }
         fetchData()
@@ -70,6 +77,7 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
 
         httpRequest()
     }, [config, method, url])
+
 
     return { data, httpConfig, loading, error }//dados a serem utilizados na aplicacao
 }

@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useState, useEffect } from 'react'
+import { useState/*, useEffect*/ } from 'react'
 //useState - salvar dados em algum lugar
 //useEffect - fazer requisição uma vez só, ou qnd necessário
 
@@ -14,7 +14,7 @@ const url = "http://localhost:3000/products"//url base para fazer requisição
 
 
 function App() {
-  const [products, setProducts] = useState([])//para salvar dados
+  //const [products, setProducts] = useState([])//para salvar dados
   //products - salva // setProducts - auxilia para colocar os produtos em algum lugar
 
   // 4 - custom hook e 5 - refactor post
@@ -65,12 +65,12 @@ function App() {
 
     setName("")
     setPrice("")//reseta state, e como state foi vinculado com input, input também reseta
-  };
+  }
 
   /* 9 - desafio */
   const handleRemove = (id) => {
     httpConfig(id, "DELETE");
-  };
+  }
 
   return (
     <div className="App">
@@ -116,7 +116,7 @@ function App() {
         </form>
       </div>
     </div>
-  );
+  )
 }
 
 export default App;
