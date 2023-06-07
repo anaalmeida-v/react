@@ -33,6 +33,7 @@ function App() {
   */
   //   fetchData(data);
   // }, []);
+  //escopo comentado pois a ideia é pegar os dados da funcao criada no use Fetch
 
   // 2 - add product
   const handleSubmit = async (e) => { //funcao handleSubmit recebe um evento e retorna a funcao
@@ -51,16 +52,18 @@ function App() {
     //   body: JSON.stringify(product),//dado ja existe, porém precisa ser enviado como json, aquii esta havendo a transformacao dele para json
     // });
 
-    // const addedProduct = await res.json();
-
     // 3 - carregamento dinâmico
+
+    //pega dados próprios que vem da requisição e envia para o front-end, com isso o envio de dados já é automático
+    // const addedProduct = await res.json();
+    
     // setProducts((prevProducts) => [...prevProducts, addedProduct]);
 
     // 5 - refatorar post
     httpConfig(product, "POST");
 
-    setName("");
-    setPrice("");
+    setName("")
+    setPrice("")//reseta state, e como state foi vinculado com input, input também reseta
   };
 
   /* 9 - desafio */
@@ -75,7 +78,7 @@ function App() {
       {loading && <p>Carregando dados...</p>}
       {error && <p>{error}</p>}
       <ul>
-        {items &&
+        {items &&//quando items forem preenchidos, map é executado
           items.map((product) => (//exibindo dados na tela
             <li key={product.id}>
               {product.name} - R$: {product.price}
