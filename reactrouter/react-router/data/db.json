@@ -1,0 +1,20 @@
+{
+    "products":[
+
+        {
+            "id": 1,
+            "name": "Blusa",
+            "price": 20
+        },
+        {
+            "id": 2,
+            "name": "Lençol",
+            "price": 50
+        },
+        {
+            "id": 3,
+            "name": "Luva",
+            "price": 10
+        }
+    ]
+}

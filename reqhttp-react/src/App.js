@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useState/*, useEffect*/ } from 'react'
+import { useState, useEffect } from 'react'
 //useState - salvar dados em algum lugar
 //useEffect - fazer requisição uma vez só, ou qnd necessário
 
@@ -14,7 +14,7 @@ const url = "http://localhost:3000/products"//url base para fazer requisição
 
 
 function App() {
-  //const [products, setProducts] = useState([])//para salvar dados
+  const [products, setProducts] = useState([])//para salvar dados
   //products - salva // setProducts - auxilia para colocar os produtos em algum lugar
 
   // 4 - custom hook e 5 - refactor post
@@ -22,6 +22,9 @@ function App() {
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+
+  //
+
 
   //1 - resgatando dados
   /* useEffect(() => {//requisição
@@ -31,56 +34,52 @@ function App() {
        //como, essa resposta vem em json(texto puro), precisa ser transformada em objeto para poder ser feita a interação
        const data = await res.json()
   */
-  //   fetchData(data);
+  //   setProducts(data);
   // }, []);
-  //escopo comentado pois a ideia é pegar os dados da funcao criada no use Fetch
 
   // 2 - add product
-  const handleSubmit = async (e) => { //funcao handleSubmit recebe um evento e retorna a funcao
-    e.preventDefault()// para nao submter o formulario()tradicional
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     const product = {
-      name,//qnd states tem o mesmo nome da chave, pode-se resumir, que se irão se igualar as variáveis criadas
+      name,
       price,
-    }//dados desse objeto serao enviados para backen
+    };
 
     // const res = await fetch("http://localhost:3000/products", {
-    //   method: "POST",//como requisicao ja era get utiliza-se algo diferente, nesse caso, POST
+    //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json",
     //   },
-    //   body: JSON.stringify(product),//dado ja existe, porém precisa ser enviado como json, aquii esta havendo a transformacao dele para json
+    //   body: JSON.stringify(product),
     // });
 
+    // const addedProduct = await res.json();
 
     // 3 - carregamento dinâmico
-    
-    //pega dados próprios que vem da requisição e envia para o front-end, com isso o envio de dados já é automático
-    // const addedProduct = await res.json();
-    
     // setProducts((prevProducts) => [...prevProducts, addedProduct]);
 
     // 5 - refatorar post
-    httpConfig(product, "POST")//enviando para o http config os dados(product) e o "POST"para enviar
+    httpConfig(product, "POST");
 
-    setName("")
-    setPrice("")//reseta state, e como state foi vinculado com input, input também reseta
-  }
+    setName("");
+    setPrice("");
+  };
 
-  /* 8 - desafio 6*/
+  /* 9 - desafio */
   const handleRemove = (id) => {
     httpConfig(id, "DELETE");
-  }
+  };
 
   return (
     <div className="App">
       <h1>Lista de produtos</h1>
       {/* 6 - state de loading */}
-      {loading && <p>Carregando dados...</p>}{/*quando loading for true, exibe o parágrafo*/}
-      {error && <p>{error}</p>}{/*caso haja um erro, exibir a mensagem de erro criada no Fetch.js*/}
+      {loading && <p>Carregando dados...</p>}
+      {error && <p>{error}</p>}
       <ul>
-        {items &&//quando items forem preenchidos, map é executado
-          items.map((product) => (//exibindo dados na tela
+        {items &&
+          items.map((product) => (
             <li key={product.id}>
               {product.name} - R$: {product.price}
               {/* 9 - desafio */}
@@ -91,15 +90,14 @@ function App() {
 
       <div className="add-product">
         <p>Adicionar produto:</p>
-        <form onSubmit={handleSubmit}>{/* onSubmit recebe funcao handle submit */}
+        <form onSubmit={handleSubmit}>
           <label>
             Nome:
             <input
               type="text"
-              value={name}//ligando input ao state
+              value={name}
               name="name"
               onChange={(e) => setName(e.target.value)}
-            //onChange faz a manipulação de dado ligando o evento de digitar e extraindo o valor de input até esse evento
             />
           </label>
           <label>
@@ -116,7 +114,7 @@ function App() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default App;
