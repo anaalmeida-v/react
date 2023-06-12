@@ -67,7 +67,7 @@ function App() {
     setPrice("")//reseta state, e como state foi vinculado com input, input também reseta
   }
 
-  /* 9 - desafio */
+  /* 8 - desafio 6*/
   const handleRemove = (id) => {
     httpConfig(id, "DELETE");
   }

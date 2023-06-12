@@ -14,7 +14,10 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
     const [loading, setLoading] = useState(false)
 
     //7 - tratando erros
-    const [error, setError] = useState(false)
+    const [error, setError] = useState(null)
+
+    //8 - DESAFIO 6
+    const [itemId, setItemId] = useState(null)
 
     const httpConfig = (data, method) => {
         if (method === "POST") {
@@ -24,10 +27,19 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
                     "Content-type": "application/json"
                 },
                 body: JSON.stringify(data),//alterando as configs para json
-
             })
 
-            setMethod("POST")
+            setMethod(method)
+        } else if (method === "DELETE") {
+            setConfig({
+                method,
+                headers: {
+                    "Content-type": "application/json"
+                },
+            })
+            setMethod(method)
+            setItemId(data)
+
         }
     }
 
@@ -64,15 +76,26 @@ export const useFetch = (url) => {//exporta funcao - puxa url da api
     useEffect(() => {
 
         const httpRequest = async () => {
+
+            let json
+
             if (method === "POST") {
                 let fetchOptions = [url, config]
 
                 const res = await fetch(...fetchOptions)
 
-                const json = await res.json()
+                json = await res.json()
 
                 setCallFetch(json)
+            } else if(method === "DELETE")
+            {
+                const deleteUrl = `${url}/${itemId}`
+
+                const res = await fetch(deleteUrl, config)
+
+                json = await res.json()
             }
+            setCallFetch(json)
         }
 
         httpRequest()
