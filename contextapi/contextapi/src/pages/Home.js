@@ -1,7 +1,15 @@
+import { useContext  } from "react"//importando forma de se usar o contexto
+
+import { CounterContext } from "../context/CounterContext"//importando variavel com elementos a serem utilizados
+
 const Home = () => {
-    const url = "http://localhost:3000/products"
+  const { counter } = useContext(CounterContext)//desustruturando counter do useContext-CounterContext
+
   return (
-    <div>Home</div>
+    <div>
+      <h1>Home</h1>
+      <p>Valor do contador: {counter}</p>
+    </div>
   )
 }
 
