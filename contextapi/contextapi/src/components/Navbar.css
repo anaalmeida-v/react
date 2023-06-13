@@ -3,7 +3,7 @@ nav{
     justify-content: center;
 }
 
-nav a{
+nav a {
     margin: 0 10px;
     padding: 5px;
     text-decoration: none;
@@ -11,10 +11,10 @@ nav a{
 }
 
 nav a:hover{
-    color:#ccc
+    color: #ccc;
 }
 
-.active {
+.active{
     background-color: #000;
-    color:#fff
+    color: #fff;
 }
