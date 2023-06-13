@@ -1,7 +1,15 @@
-const Contact = () => {
+import { useContext } from 'react'
+import { CounterContext } from '../context/CounterContext'
+
+const Products = () => {
+  const { counter } = useContext(CounterContext)
+
   return (
-    <div>Contact</div>
+    <div>
+      <h1>Products</h1>
+      <p>Valor do contador: {counter}</p>
+    </div>
   )
 }
 
-export default Contact
+export default Products
