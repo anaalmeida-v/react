@@ -4,8 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { CounterContextProvider  } from './context/CounterContext';//importacao do contextprovider
+import { CounterContextProvider  } from './context/CounterContext';
 import { TitleColorContextProvider } from './context/TitleColorContext';
+//envolvendo contexts 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
