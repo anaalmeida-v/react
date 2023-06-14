@@ -4,14 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { CounterContextProvider } from './context/CounterContext';//importacao do contextprovider
+import { CounterContextProvider  } from './context/CounterContext';//importacao do contextprovider
+import { TitleColorContextProvider } from './context/TitleColorContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* 2 - criando provider // envolve dentro do provider o App*/}
     <CounterContextProvider>
-      <App />
+      <TitleColorContextProvider>
+        <App />
+      </TitleColorContextProvider>
     </CounterContextProvider>
   </React.StrictMode>
 );
