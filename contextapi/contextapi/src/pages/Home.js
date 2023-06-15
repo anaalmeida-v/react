@@ -10,7 +10,7 @@ import { useTitleColorContext } from "../hooks/useTitleColorContext"
 
 const Home = () => {
   //const { counter } = useContext(CounterContext)//desustruturando counter do useContext-CounterContext
-  const { counter } = useCounterContext()//invocando a funcao do hook
+  const {counter} = useCounterContext()//invocando a funcao do hook
 
   //5 - context mais completo
   const {color, dispatch} = useTitleColorContext()
@@ -19,7 +19,7 @@ const Home = () => {
 
   // 6 - alterando state complexo
 const setTitleColor = (color) => {
-  dispatch({ type: color })
+  dispatch({ type: color })//tem um dispatch e a cor seria a acao
 }
 
   return (

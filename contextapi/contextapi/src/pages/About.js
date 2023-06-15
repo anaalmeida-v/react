@@ -13,7 +13,7 @@ const About = () => {
 
   return (
     <div>
-      <h1 style={{color:color}}>About</h1>
+      <h1 style={{color:color}}>About</h1>{/* consumindo context que foi consumido inicialmente na home */}
       <p>Valor do contador: {counter}</p>
     </div>
   )
