@@ -6,16 +6,14 @@ import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
   return (
-    <nav>
-      <NavLink to="/">
+    <nav className={styles.navbar}> 
+      <NavLink to="/" className={styles.brand}>
         Mini <span>Blog</span>
-        <NavLink>
-          <ul>
-            <li><NavLink to='/'>Home</NavLink></li>
-            <li><NavLink to='/about'>About</NavLink></li>
-          </ul>
         </NavLink>
-      </NavLink>
+          <ul className={styles.links_list}>
+            <li><NavLink to='/' className={({ isActive }) => (isActive ? styles.active : "")}>Home</NavLink></li>
+            <li><NavLink to='/about' className={({ isActive }) => (isActive ? styles.active : "")}>About</NavLink></li>
+          </ul>
     </nav>
   )
 }
