@@ -17,13 +17,13 @@ const Navbar = () => {
       </NavLink>
       <ul className={styles.links_list}>
         <li><NavLink to='/' className={({ isActive }) => (isActive ? styles.active : "")}>Home</NavLink></li>
-        {!user && (
+        {!user && (//se nao tiver usuario, serao exibidos os seguintes links:
           <>
             <li><NavLink to='/login' className={({ isActive }) => (isActive ? styles.active : "")}>Entrar</NavLink></li>
             <li><NavLink to='/register' className={({ isActive }) => (isActive ? styles.active : "")}>Cadastrar</NavLink></li>
           </>
         )}
-        {user && (
+        {user && (//se tiver usuario, serao exibidos os seguintes links:
           <>
            <li><NavLink to='/posts/create' className={({ isActive }) => (isActive ? styles.active : "")}>Novo post</NavLink></li>
             <li><NavLink to='/dashboard' className={({ isActive }) => (isActive ? styles.active : "")}>Dashboard</NavLink></li>

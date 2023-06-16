@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
@@ -8,9 +8,9 @@ const firebaseConfig = {
   storageBucket: "miniblog-b38b9.appspot.com",
   messagingSenderId: "1039702486542",
   appId: "1:1039702486542:web:859f4383d5791a8997965f"
-};
+}
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig)
 
 const db = getFirestore(app)//Firesore - serviço de banco de dados dentro do firebase
 
