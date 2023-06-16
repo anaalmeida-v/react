@@ -1,17 +1,21 @@
-import styles from './Register.module.css'
+import styles from "./Register.module.css";
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from "react";
+import { useAuthentication } from "../../hooks/useAuthentication";
 
 const Register = () => {
+  const [displayName, setDisplayName] = useState("");//nome do usuario
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const [displayName, setDisplayName] = useState("")//nome do usuario
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState()
-  const [error, setError] = useState("")
+  const { createUser, error: authError, loading } = useAuthentication();
+  //renomeando erro, assim nao fica confuso pois já existe o do front-end
 
-  const handleSubmit = (e) => {//o submit serve para reunir todos os dados e ajudar na hora de enviar no formulário
-    e.preventDefault()
+  const handleSubmit = async (e) => {//o submit serve para reunir todos os dados e ajudar na hora de enviar no formulário
+    e.preventDefault();
+
 
     setError("")
 
@@ -26,7 +30,17 @@ const Register = () => {
       setError("As senhas precisam ser iguais!")
       return
     }
+
+    const res = await createUser(user)
+
     console.log(user)
+
+    useEffect(() => {
+      if(authError) {
+         setError(authError)
+      }
+
+    }, [authError])
   }
 
   return (
@@ -59,6 +73,7 @@ const Register = () => {
             onChange={(e) => setConfirmPassword(e.target.value)} />
         </label>
         <button className='btn'>Cadastrar</button>
+        {loading && <button className='btn' disabled>Aguarde...</button>}
         {error && <p className='error'>{error}</p>}
       </form>
     </div>
