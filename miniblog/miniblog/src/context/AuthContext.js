@@ -1,8 +1,9 @@
+//contexto de autenticação
 import { useContext, createContext } from "react";
 
 const AuthContext = createContext()
 
-export function AuthProvider({ children, value }) {
+export function AuthProvider({ children, value }) {//valor para poder compartilhar no contexto 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 

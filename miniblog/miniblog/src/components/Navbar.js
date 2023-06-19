@@ -1,8 +1,8 @@
 //CSS 
 import styles from './Navbar.module.css'
 
-import { useAuthentication } from '../hooks/useAuthentication'
-import { useAuthValue } from '../context/AuthContext'
+import { useAuthentication } from '../hooks/useAuthentication'//será utilizado para a barra de navegação 
+import { useAuthValue } from '../context/AuthContext'//pegar valor do contexto
 
 //Navlink
 import { NavLink } from 'react-router-dom'

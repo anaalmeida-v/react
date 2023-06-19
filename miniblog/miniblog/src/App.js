@@ -24,18 +24,18 @@ import Footer from './components/Footer'
 
 function App() {
 
-  const [user, setUser] = useState(undefined)
+  const [user, setUser] = useState(undefined)//undefined pois nao há usuário na seção inicial, é indefinido
   const { auth } = useAuthentication()
 
   const loadingUser = user == undefined
 
   useEffect(() => {
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, (user) => {//auth - basicamente uma classe que possui funcionalidades para gerenciar autenticação
+    //user foi colocado, pois é o que eu quero passar na variável setUser
       setUser(user)
     })
-
-  }, [auth])
+  }, [auth])//smp que mudar a autenticação, o useEffect será executado
 
   if (loadingUser) {
     return <p>Carregando...</p>
@@ -43,17 +43,19 @@ function App() {
 
   return (
     <div className="App">
-      <AuthProvider value={{ user }}>
+      <AuthProvider value={{ user }}>{/* com o value-user aq, agr é possível acessar o usuário em todos
+      os locais */}
         <BrowserRouter>
           <Navbar />
           <div className='container'>
             <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/about' element={<About />} />
-              <Route path='/login' element={!user ? <Login />  : <Navigate to="/" />} />
-              <Route path='/register' element={!user ? <Register />  : <Navigate to="/login" />} />
-              <Route path='/posts/create' element={user ? <CreatePost /> : <Navigate to="/" />} />
-              <Route path='/dashboard' element={user ? <Dashboard /> : <Navigate to="/login" /> } />
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/login" element={!user ? <Login />  : <Navigate to="/" />} />
+              <Route path="/register" element={!user ? <Register />  : <Navigate to="/login" />} />
+              <Route path="/posts/create" element={user ? <CreatePost /> : <Navigate to="/" />} />
+              <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" /> } />
+              {/* verificando se há um usuário cadastrado ou não, para assim encaminhar para a página que é necessária */}
             </Routes>
           </div>
           <Footer />
