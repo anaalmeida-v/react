@@ -78,6 +78,38 @@ export const useAuthentication = () => {//funcao hook
         signOut(auth)//passando quem está autenticado
     }
 
+    //login - sign in
+    const login = async (data) => {//data - retorna dados// é feito assim pq assim espera o usuário
+    //ser autenticado para a operação 
+
+      checkIfIsCancelled()//checagem de memória
+
+      setLoading(true)
+      setError(false)
+
+      try{
+
+        await signInWithEmailAndPassword(auth, data.email, data.password)
+        setLoading(false)
+
+      } catch(error){
+
+        let SystemErrorMessage
+        if (error.message.includes("user-not-found")) {//se a mensagem de erro inclui"user-not-found(usuário não existe)"
+            SystemErrorMessage = "Usuário não encontrado."
+            
+        } else if(error.message.includes("wrong-password")) {//se a mensagem de erro incluir "wrong-password a senha está incorreta"
+
+            SystemErrorMessage = "Senha incorreta"
+        } else {//se qualquer outro erro acontecer, exibirá a msg abaixo
+            SystemErrorMessage = "ocorreu um erro, por favor tente mais tarde."
+        }
+
+        setError(SystemErrorMessage)//o erro vai para o componente e será exibido na tela do usuário
+        setLoading(false)
+      }
+
+    }
 
     useEffect(() => {//cancelado vai ser true, assim q saírmos desta página - será utilizado apenas uma vez
         return () => setCancelled(true)
@@ -88,7 +120,8 @@ export const useAuthentication = () => {//funcao hook
         createUser,
         error,
         loading,
-        logout
+        logout,
+        login
         //funções são retornadas para que assim seja possível utilizá-las em outro lugar
     )
 }

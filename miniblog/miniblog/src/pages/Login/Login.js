@@ -7,31 +7,34 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  //renomeando erro, assim nao fica confuso pois já existe o do front-end
+  const { login, error: authError, loading} = useAuthentication()
 
+  useEffect(() => {
+    if(authError) {
+       setError(authError)
+    }
+
+  }, [authError])
+
+  //renomeando erro, assim nao fica confuso pois já existe o do front-end
   const handleSubmit = async (e) => {//o submit serve para reunir todos os dados e ajudar na hora de enviar no formulário
     e.preventDefault();
+    
 
 
     setError("")
 
     //validação de senha
     const user = {
-      displayName,
       email,
       password
     }
 
-    const res = await createUser(user)
+    const res = await login(user)
 
     console.log(user)
 
-    useEffect(() => {
-      if(authError) {
-         setError(authError)
-      }
-
-    }, [authError])
+    
   }
   return (
     <div className={styles.login}>

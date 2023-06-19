@@ -11,6 +11,8 @@ const Register = () => {
   const [error, setError] = useState("");
 
   const { createUser, error: authError, loading } = useAuthentication();
+
+  
   //renomeando erro, assim nao fica confuso pois já existe o do front-end
 
   const handleSubmit = async (e) => {//o submit serve para reunir todos os dados e ajudar na hora de enviar no formulário
@@ -34,13 +36,6 @@ const Register = () => {
     const res = await createUser(user)
 
     console.log(user)
-
-    useEffect(() => {
-      if(authError) {
-         setError(authError)
-      }
-
-    }, [authError])
   }
 
   return (
