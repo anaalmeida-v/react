@@ -6,7 +6,7 @@ import {
     signInWithEmailAndPassword,
     updateProfile,
     signOut,
-} from "firebase/auth";
+} from "firebase/auth"
 //db de configs do firebase não será usado para salvar autenticacao de usuario
 
 import { useState, useEffect } from 'react'//funcao do react necessarias
