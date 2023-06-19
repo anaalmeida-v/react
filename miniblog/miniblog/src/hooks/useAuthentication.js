@@ -28,6 +28,7 @@ export const useAuthentication = () => {//funcao hook
         }
     }
 
+    //register
     const createUser = async (data) => {
         checkIfIsCancelled()
 
@@ -70,6 +71,14 @@ export const useAuthentication = () => {//funcao hook
         }
     }
 
+    //logout - sign out
+    const logout = () => {
+        checkIfIsCancelled()
+
+        signOut(auth)//passando quem está autenticado
+    }
+
+
     useEffect(() => {//cancelado vai ser true, assim q saírmos desta página - será utilizado apenas uma vez
         return () => setCancelled(true)
     }, [])
@@ -78,6 +87,8 @@ export const useAuthentication = () => {//funcao hook
         auth,
         createUser,
         error,
-        loading
+        loading,
+        logout
+        //funções são retornadas para que assim seja possível utilizá-las em outro lugar
     )
 }

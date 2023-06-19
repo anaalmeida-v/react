@@ -36,6 +36,8 @@ function App() {
       setUser(user)
     })
   }, [auth])//smp que mudar a autenticação, o useEffect será executado
+  //aula logout - auth muda, executa função novamente e entrega novo user, contexto compartilha usuário que
+  //não existe mais e automaticamente não temos mais o usuário
 
   if (loadingUser) {
     return <p>Carregando...</p>

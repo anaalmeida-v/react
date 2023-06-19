@@ -8,8 +8,8 @@ import { useAuthValue } from '../context/AuthContext'//pegar valor do contexto
 import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
-
   const { user } = useAuthValue()
+  const { logout } = useAuthentication()
   return (
     <nav className={styles.navbar}>
       <NavLink to="/" className={styles.brand}>
@@ -30,6 +30,8 @@ const Navbar = () => {
           </>
         )}
         <li><NavLink to='/about' className={({ isActive }) => (isActive ? styles.active : "")}>Sobre</NavLink></li>
+        {user && (<li><button onClick={logout}>Sair</button></li>)}{/* se o usuário estiver logado, 
+        ]exiba o botao "Sair", que contém a função {logout} criada no hook(useAuthentication) */}
       </ul>
     </nav>
   )
