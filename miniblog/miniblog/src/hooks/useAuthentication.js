@@ -1,5 +1,3 @@
-import { db } from '../firebase/config'
-
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -9,9 +7,9 @@ import {
 } from "firebase/auth"
 //db de configs do firebase não será usado para salvar autenticacao de usuario
 
-import { useState, useEffect } from 'react'//funcao do react necessarias
+import { useState, useEffect } from "react"//funcao do react necessarias
 
-export const useAuthentication = () => {//funcao hook
+export const useAuthentication = () => {//função hook
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(null)
 
@@ -33,7 +31,7 @@ export const useAuthentication = () => {//funcao hook
         checkIfIsCancelled()
 
         setLoading(true)//se não tiver cancelado, loading é true
-        setError(null)
+        //setError(null)
 
         //validações do backend estao prontas
         //tentar criar form(try), se nao der certo(catch)
@@ -45,9 +43,8 @@ export const useAuthentication = () => {//funcao hook
             )//com isso, um usuario será direcionado
 
             await updateProfile(user, {
-                displayName: data.displayName
+                displayName: data.displayName,
             })
-            setLoading(false)
 
             return user
 
@@ -58,17 +55,15 @@ export const useAuthentication = () => {//funcao hook
             let systemErrorMessage
 
             if (error.message.includes("Password")) {//se erro for na senha
-                systemErrorMessage = "A senha precisa ter pelo menos 6 caracteres."
+                systemErrorMessage = "A senha precisa conter pelo menos 6 caracteres."
             } else if (error.message.includes("email-already")) {//se erro estiver no email
                 systemErrorMessage = "E-mail já cadastrado."
             } else {//ou se erro estiver qualquer outra coisa além desses dois
-                systemErrorMessage = "Ocorrem erro, por favor tente mais tarde."
+                systemErrorMessage = "Ocorreu um erro, por favor tenta mais tarde."
             }
-            setLoading(false)//se acabou função, acabou loading
-            console.log(systemErrorMessage);
-
-            setError(systemErrorMessage);
+            setError(systemErrorMessage)
         }
+        setLoading(false)//se acabou função, acabou loading
     }
 
     //logout - sign out
@@ -80,34 +75,31 @@ export const useAuthentication = () => {//funcao hook
 
     //login - sign in
     const login = async (data) => {//data - retorna dados// é feito assim pq assim espera o usuário
-    //ser autenticado para a operação 
+        //ser autenticado para a operação 
 
-      checkIfIsCancelled()//checagem de memória
+        checkIfIsCancelled()//checagem de memória
+        setLoading(true)
+        setError(false)
 
-      setLoading(true)
-      setError(false)
+        try {
+            await signInWithEmailAndPassword(auth, data.email, data.password)
+            //setLoading(false)
 
-      try{
+        } catch (error) {
 
-        await signInWithEmailAndPassword(auth, data.email, data.password)
-        setLoading(false)
+            let systemErrorMessage
 
-      } catch(error){
+            if (error.message.includes("user-not-found")) {//se a mensagem de erro inclui"user-not-found(usuário não existe)"
+                systemErrorMessage = "Usuário não encontrado."
+            } else if (error.message.includes("wrong-password")) {//se a mensagem de erro incluir "wrong-password a senha está incorreta"
 
-        let SystemErrorMessage
-        if (error.message.includes("user-not-found")) {//se a mensagem de erro inclui"user-not-found(usuário não existe)"
-            SystemErrorMessage = "Usuário não encontrado."
-            
-        } else if(error.message.includes("wrong-password")) {//se a mensagem de erro incluir "wrong-password a senha está incorreta"
-
-            SystemErrorMessage = "Senha incorreta"
-        } else {//se qualquer outro erro acontecer, exibirá a msg abaixo
-            SystemErrorMessage = "ocorreu um erro, por favor tente mais tarde."
+                systemErrorMessage = "Senha incorreta."
+            } else {//se qualquer outro erro acontecer, exibirá a msg abaixo
+                systemErrorMessage = "Ocorreu um erro, por favor tenta mais tarde."
+            }
+            setError(systemErrorMessage)//o erro vai para o componente e será exibido na tela do usuário
         }
-
-        setError(SystemErrorMessage)//o erro vai para o componente e será exibido na tela do usuário
         setLoading(false)
-      }
 
     }
 
@@ -115,13 +107,13 @@ export const useAuthentication = () => {//funcao hook
         return () => setCancelled(true)
     }, [])
 
-    return (
+    return {
         auth,
         createUser,
         error,
-        loading,
         logout,
-        login
-        //funções são retornadas para que assim seja possível utilizá-las em outro lugar
-    )
-}
+        login,
+        loading,
+    }
+}//funções são retornadas para que assim seja possível utilizá-las em outro lugar
+

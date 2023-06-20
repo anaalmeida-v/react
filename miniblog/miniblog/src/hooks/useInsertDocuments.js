@@ -10,7 +10,7 @@ const initialState = {
 
 const insertReducer = (state, action) => {//aceita estado e ação que será executada
 
-  switch (action.type) {
+  switch (action.type) {//checagem do tipo da ação
     case "LOADING"://caso carregando
       return { loading: true, }
     case "INSERTED_DOC"://caso inserindo ou inserido
@@ -29,26 +29,29 @@ export const useInsertDocuments = (docCollection) => {
   //deal with memory leak - lidar com vazamento de memória 
   const [cancelled, setCancelled] = useState(false)
 
-  const checkCancelledBeforeDispatch = (action) => {//antes de fzr qlqr ação vai verificar se está cancelado ou não
+  const checkCancelBeforeDispatch = (action) => {//antes de fzr qlqr ação vai verificar se está cancelado ou não
     if (!cancelled) {
       dispatch(action)
     }
   }
 
   const insertDocuments = async (document) => {
-    checkCancelledBeforeDispatch({
+
+    checkCancelBeforeDispatch({
       type: "LOADING",
-    })
+    })//loading antes de inserção de doc
 
     try {
       const newDocument = { ...document, createdAt: Timestamp.now() }//pegando dados que foram passados 
       //para esta funcao //timestamp.now - a partir deste momento temos a data de agora
 
       const insertDocuments = await addDoc(collection(db, docCollection), newDocument)
+      //resultado da inserção do dado passando método 'collection', passa 'db' da config de firebase
+      //procura no banco de dados coleção passada como argumento da função
 
-      checkCancelledBeforeDispatch({
+      checkCancelBeforeDispatch({
         type: "INSERTED_DOC",
-        payload: insertDocuments
+        payload: insertDocuments,
       })
 
     } catch (error) {
@@ -66,11 +69,3 @@ export const useInsertDocuments = (docCollection) => {
 
   return { insertDocuments, response }
 }
-
-const useInsertDocuments = () => {
-  return (
-    <div>useInsertDocuments</div>
-  )
-}
-
-export default useInsertDocuments
