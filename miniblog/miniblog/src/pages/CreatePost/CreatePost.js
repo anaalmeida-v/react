@@ -1,7 +1,7 @@
 import styles from './CreatePost.module.css'
 
 import { useState } from 'react'//manusear posts para serem salvos no banco
-import { useNavigate } from 'react-router-dom'//redirecionar dps da criacao do post
+import { Navigate, useNavigate } from 'react-router-dom'//redirecionar dps da criacao do post
 import { useAuthValue } from '../../context/AuthContext'//para atrelar usuário no post, assim que será possível fzr dashboard
 import { useInsertDocuments } from '../../hooks/useInsertDocuments'//funcao de inserção de dados
 
@@ -16,26 +16,44 @@ const CreatePost = () => {
 
   const { insertDocuments, response } = useInsertDocuments("posts")
 
+  const navigate = useNavigate()
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    setFormError("")//zerar erros form.
+    setFormError("")//zerar erros form
 
-    //validar url da imagem.
+    //validar url da imagem
+    try{
+      new URL(image)//tenta criar url com o dado'image'
+    } catch(error) {
+      setFormError("A imagem precisa ser uma URL!")
+    }
 
+    //criar array de tags
+    const tagsArray = tags.split(",").map((tag) => tag.trim().toLowerCase())
+    /*esta sendo passado um .split() por todas as vírgulas, gerando um array. Em seguida algumas
+    modificações acontecerão nas tags que são geradas baseada naquele array
+    .trim() - remove os espaços em branco
+    toLowerCase() - para buscas serem feitas mais facilmente*/
 
-    //criar array de tags.
+    //checar todos os valores
+    if(!title || !tags || !image || !body) {
+      setFormError("Por favor, preencha todos os campos ")
+    }//se valores nao forem retornados sera exibida uma mensagem de erro
 
-    //checar todos os valores.
+    if(formError) return//se tiver um erro retorna, assim, faazendo com que usuário nao possa seguir com a inserção do post
+
     insertDocuments({//função será executada nos itens do state
       title,
       image,
       body,
-      tags,
+      tagsArray,
       uid: user.uid,//id do usuario
       createdBy: user.displayName//nome usuario
     })
 
     //redirect to home page - redirecionar para a página inicial
+    navigate("/")
 }
 
 return (
@@ -64,9 +82,9 @@ return (
         <input type="text" name='tags' required placeholder='Insira as tags separadas por vírgula'
           onChange={(e) => setTags(e.target.value)} value={tags} />
       </label>
-      {!response.loading && <button className='btn'>Cadastrar</button>}
-      {response.loading && (<button className='btn' disabled>Aguarde...</button>)}
-      {response.error && <p className='error'>{response.error}</p>}
+      {!response.loading && <button className="btn">Criar post!</button>}
+      {response.loading && (<button className="btn" disabled>Aguarde.. .</button>)}
+      {(response.error || formError) && (<p className="error">{response.error || formError}</p>)}
     </form>
   </div >
 )
