@@ -3,7 +3,7 @@ import styles from './CreatePost.module.css'
 import { useState } from 'react'//manusear posts para serem salvos no banco
 import { useNavigate } from 'react-router-dom'//redirecionar dps da criacao do post
 import { useAuthValue } from '../../context/AuthContext'//para atrelar usuário no post, assim que será possível fzr dashboard
-import { useInsertDocuments } from '../../hooks/useInsertDocuments'
+import { useInsertDocuments } from '../../hooks/useInsertDocuments'//funcao de inserção de dados
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
@@ -12,20 +12,20 @@ const CreatePost = () => {
   const [tags, setTags] = useState([])//array pois tags são compostas por listas 
   const [formError, setFormError] = useState("")
 
-  const { user } = useAuthValue()
+  const { user } = useAuthValue()//chamando usuario
 
   const { insertDocuments, response } = useInsertDocuments("posts")
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setFormError("")//zerar erros form
+    setFormError("")//zerar erros form.
 
-    //validar url da imagem
+    //validar url da imagem.
 
 
-    //criar array de tags
+    //criar array de tags.
 
-    //checar todos os valores
+    //checar todos os valores.
     insertDocuments({//função será executada nos itens do state
       title,
       image,
@@ -34,6 +34,8 @@ const CreatePost = () => {
       uid: user.uid,//id do usuario
       createdBy: user.displayName//nome usuario
     })
+
+    //redirect to home page - redirecionar para a página inicial
 }
 
 return (
@@ -49,7 +51,7 @@ return (
       <label>
         <span>URL da imagem:</span>
         <input type="text" name='image' required placeholder='Insira uma imagem que representa o seu post'
-          onChange={(e) => setImage(e.target.value)} value={title} />
+          onChange={(e) => setImage(e.target.value)} value={image} />
       </label>
       <label>
         <span>Conteúdo:</span>
