@@ -14,10 +14,16 @@ const Home = () => {
   const [query, setQuery] = useState("")//state de busca
   const { documents: posts, loading } = useFetchDocuments("posts")//renomeando 'documents' que vem do hook para 'posts'
 
+  const navigate = useNavigate()
+
   //carrega coleção de "posts" que é a que está sendo trabalhada
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    if(query){
+      return navigate(`/search?q=${query}`)
+    }
   }
 
   return (

@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore"
 
 export const useFetchDocuments = (docCollection, search = null, uid = null) => {//pegando dados, recebendo parametro de busca
+    //search - será feita uma busca baseada nas tags do post
 
     const [documents, setDocuments] = useState(null)
     const [error, setError] = useState(null)
@@ -19,9 +20,9 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
 
     useEffect(() => {
         async function loadData() {//se tiver cancelada retorna
-            if (cancelled) 
+            if (cancelled)
                 return
-            
+
             setLoading(true)//carregando dados
 
             const collectionRef = await collection(db, docCollection);//referencia collection, para assim poder ser usada em outro lugar
@@ -34,8 +35,15 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
 
                 //dashboard
 
-                q = await query(collectionRef, orderBy("createdAt", "desc"));//criando busca de dados
+                if (search) {
+                    q = await query(collectionRef, where("tags", "array-contains", search), orderBy("createdAt", "desc"))//desc - descendente(do + novo p/ + velho)
+                    //array-contains: parâmetro do firebase//vendo se busca esta no array
 
+
+
+                } else {
+                    q = await query(collectionRef, orderBy("createdAt", "desc"));//criando busca de dados
+                }
                 await onSnapshot(q, (querySnapshot) => {//onSnapshot: mapear dados - smp que houver um dado alterado, será retornado renovado para nós
 
                     setDocuments(
@@ -46,7 +54,7 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
                         }))//acessa docs que vem do firebase e faz um map nesses docs()individualmente
                     )
                 })
-                
+
                 setLoading(false)
 
             } catch (error) {
