@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react'
-import { db } from '../firebase/config'
+import { useState, useEffect } from "react"
+import { db } from "../firebase/config"
 import {
     collection,//definir coleção
     query,//resgatar dado
-    orderBy,//ordenacao 
+    orderBy,//ordenacao
     onSnapshot,
-    where,
-    QuerySnapshot, //filtro dos resultados que estão sendo trazidos
-} from 'firebase/firestore'
+    where,//filtro dos resultados que estão sendo trazidos
+} from "firebase/firestore"
 
 export const useFetchDocuments = (docCollection, search = null, uid = null) => {//pegando dados, recebendo parametro de busca
 
@@ -19,34 +18,35 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
     const [cancelled, setCancelled] = useState(false)
 
     useEffect(() => {
-
-        async function loadData() {
-            if (cancelled) return
-
+        async function loadData() {//se tiver cancelada retorna
+            if (cancelled) 
+                return
+            
             setLoading(true)//carregando dados
 
-            const collection = await collection(db, docCollection)//referencia collection, para assim poder ser usada em outro lugar
+            const collectionRef = await collection(db, docCollection);//referencia collection, para assim poder ser usada em outro lugar
 
             try {//tratar de erros da busca/extreção de dados
 
-                let q
+                let q//para criar query's mais complexas
 
                 //busca
 
                 //dashboard
 
-                q = await query(collectionRef, orderBy("createAt", "desc"))//criando busca de dados
+                q = await query(collectionRef, orderBy("createdAt", "desc"));//criando busca de dados
 
-                await onSnapshot(q, (QuerySnapshot) => {//onSnapshot: mapear dados - smp que houver um dado alterado, será retornado renovado para nós
+                await onSnapshot(q, (querySnapshot) => {//onSnapshot: mapear dados - smp que houver um dado alterado, será retornado renovado para nós
 
                     setDocuments(
-                        QuerySnapshot.docs.map((doc) => ({
+                        querySnapshot.docs.map((doc) => ({
                             id: doc.id,//id do doc vem separado dos dados
                             ...doc.data(),//criar outras chaves baseado no que vem de doc.data
 
                         }))//acessa docs que vem do firebase e faz um map nesses docs()individualmente
                     )
                 })
+                
                 setLoading(false)
 
             } catch (error) {
