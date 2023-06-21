@@ -36,7 +36,7 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
                 //dashboard
 
                 if (search) {
-                    q = await query(collectionRef, where("tags", "array-contains", search), orderBy("createdAt", "desc"))//desc - descendente(do + novo p/ + velho)
+                    q = await query(collectionRef, where("tagsArray", "array-contains", search), orderBy("createdAt", "desc"))//desc - descendente(do + novo p/ + velho)
                     //array-contains: parâmetro do firebase//vendo se busca esta no array
 
 
