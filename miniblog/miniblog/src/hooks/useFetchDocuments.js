@@ -63,7 +63,7 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
             }
         }
         loadData()
-    }, [docCollection, search, uid, cancelled])//cada vez q mudar algum desses dados, loadData() será executada
+    }, [docCollection, documents, search, uid, cancelled])//cada vez q mudar algum desses dados, loadData() será executada
 
     useEffect(() => {
         return () => setCancelled(true)//assim n carregamos dados do component qnd ele desmontar
