@@ -1,10 +1,9 @@
-import styles from './Dashboard.module.css'
+import styles from "./Dashboard.module.css";
 
-import { Link } from 'react-router-dom'
-
+import { Link } from "react-router-dom";
 //hooks
-import { useAuthValue } from '../../context/AuthContext'
-import { useFetchDocuments } from '../../hooks/useFetchDocuments'
+import { useAuthValue } from "../../context/AuthContext";
+import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 
 const Dashboard = () => {
 
@@ -13,6 +12,13 @@ const Dashboard = () => {
 
   //posts do usuário
   const { documents: posts, loading } = useFetchDocuments("posts", null, uid)
+
+  const deleteDocument = (id) => {
+
+    if (loading) {
+      return <p>Carregando...</p>
+    }
+  }
 
   return (
     <div>
@@ -24,12 +30,24 @@ const Dashboard = () => {
           <Link to="/posts/create" className='btn'>Criar primeiro post</Link>
         </div>
       ) : (//caso haja posts
-        <div>
-          <p>Tem posts!</p>
-        </div>
+        <>
+          <div>
+            <span>Título</span>
+            <span>Ações</span>
+          </div>
+          {posts &&
+            posts.map((post) => (
+              <div className={styles.post_row} key={post.id}>
+                <p>{post.title}</p>
+                <div className={styles.actions}>
+                  <Link to={`/posts/${post.id}`} className="btn btn-outline">Ver</Link>{/* ver posts */}
+                  <Link to={`/posts/edit/${post.id}`} className="btn btn-outline">Editar</Link>{/* editar posts */}
+                  <button onClick={() => deleteDocument(post.id)} className="btn btn-outline btn-danger">Excluir</button>{/* excluir post */}
+                </div>
+              </div>
+            ))}{/* exibir posts na dashboard */}
+        </>
       )}
-
-      {posts && posts.map((post) => (<h3>{post.title}</h3>))}{/* exibir posts na dashboard */}
     </div>
   )
 }
