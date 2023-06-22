@@ -41,6 +41,12 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
 
 
 
+                } else if (uid) {//quando vier id do usuário
+                    q = await query(
+                        collectionRef,
+                        where("uid", "==", uid),//id do usuário
+                        orderBy("createdAt", "desc")
+                    )
                 } else {
                     q = await query(collectionRef, orderBy("createdAt", "desc"));//criando busca de dados
                 }
@@ -63,7 +69,7 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
             }
         }
         loadData()
-    }, [docCollection, documents, search, uid, cancelled])//cada vez q mudar algum desses dados, loadData() será executada
+    }, [docCollection, search, uid, cancelled])//cada vez q mudar algum desses dados, loadData() será executada
 
     useEffect(() => {
         return () => setCancelled(true)//assim n carregamos dados do component qnd ele desmontar
