@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 //hooks
 import { useAuthValue } from '../../context/AuthContext'
 import { useFetchDocuments } from '../../hooks/useFetchDocuments'
-import { deleteDoc } from 'firebase/firestore'
+import{useDeleteDocument} from '../../hooks/useDeleteDocument'
 
 const Dashboard = () => {
 
@@ -15,11 +15,11 @@ const Dashboard = () => {
   //posts do usuario
   const { documents: posts, loading } = useFetchDocuments("posts", null, uid)
 
-  const deleteDocument = (id) => {
+  const{deleteDocument} = useDeleteDocument("posts") //método de deletar elemento
+
     if(loading) {
       return <p>Carregando...</p>
     }
-  }
 
   return (
     <div className={styles.dashboard}>
@@ -37,7 +37,7 @@ const Dashboard = () => {
         <span>Ações</span>
         </div>
         {posts && posts.map((post)=>
-          <div key={post.id} className={styles.pos_row}>
+          <div className={styles.post_row} key={post.id}>
             <p>{post.title}</p>
             <div>
               <Link to={`/posts/${post.id}`} className='btn btn-outline'>Ver</Link>{/* ver posts */}

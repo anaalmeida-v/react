@@ -34,14 +34,15 @@ export const useDeleteDocument = (docCollection) => {
         }
     }
 
-    const deleteDocument = async (id) => {
+    const deleteDocument = async (id) => {//recebe id do elemento que tem que ser deletado
 
         checkCancelBeforeDispatch({
             type: "LOADING",
         })//loading antes de EXCLUSAO de doc
 
         try {
-            const deleteDocument = await deleteDoc(doc(docCollection, id))
+            const deleteDocument = await deleteDoc(doc(db, docCollection, id))//passando a referência para assim encontrat documento
+            //collection do doc e id de elemento
 
             checkCancelBeforeDispatch({
                 type: "DELETE_DOC",
