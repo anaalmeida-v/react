@@ -3,8 +3,8 @@ import styles from './EditPost.module.css'
 import { useEffect, useState } from 'react'//manusear posts para serem salvos no banco
 import { useNavigate, useParams } from 'react-router-dom'//redirecionar dps da criacao do post
 import { useAuthValue } from '../../context/AuthContext'//para atrelar usuário no post, assim que será possível fzr dashboard
-import { useInsertDocuments } from '../../hooks/useInsertDocuments'//funcao de inserção de dados
 import { useFetchDocument } from '../../hooks/useFetchDocument'
+import { useUpdateDocument } from '../../hooks/useUpdateDocument'
 
 const EditPost = () => {
     const { id } = useParams()//se useParams retornar dados que vieram da URL, vai pegar o id
@@ -32,7 +32,7 @@ const EditPost = () => {
 
     const { user } = useAuthValue()//chamando usuario
 
-    const { insertDocuments, response } = useInsertDocuments("posts")
+    const { updateDocument, response } = useUpdateDocument("posts")
 
     const navigate = useNavigate()
 
@@ -61,17 +61,19 @@ const EditPost = () => {
 
         if (formError) return//se tiver um erro retorna, assim, faazendo com que usuário nao possa seguir com a inserção do post
 
-        insertDocuments({//função será executada nos itens do state
+        const data = {//função será executada nos itens do state
             title,
             image,
             body,
             tagsArray,
             uid: user.uid,//id do usuario
             createdBy: user.displayName//nome usuario
-        })
+        }       
+
+        updateDocument(id, data)
 
         //redirect to home page - redirecionar para a página inicial
-        navigate("/")
+        navigate("/dashboard")
     }
 
     return (
