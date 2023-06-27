@@ -1,4 +1,3 @@
-import { getValue } from "@testing-library/user-event/dist/utils";
 import { createContext } from "react";
 
 export const SomeContext = createContext();
