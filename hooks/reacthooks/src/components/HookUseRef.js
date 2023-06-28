@@ -1,26 +1,26 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react"
 
 const HookUseRef = () => {
   //1 - useRef
-  const numberRef = useRef(0);
-  const [counter, setCounter] = useState(0);
-  const [counterB, setCounterB] = useState(0);
+  const numberRef = useRef(0)
+  const [counter, setCounter] = useState(0)
+  const [counterB, setCounterB] = useState(0)
 
   useEffect(() => {
-    numberRef.current = numberRef.current + 1;
-  }); //caso não fosse um Ref o component estaria em um loop infinito
+    numberRef.current = numberRef.current + 1
+  }) //caso fosse um State o component estaria em um loop infinito
 
   // 2 - useRef e DOM
-  const inputRef = useRef();
-  const [text, setText] = useState("");
+  const inputRef = useRef()
+  const [text, setText] = useState("")
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    setText("");
+    setText("")
 
-    inputRef.current.focus();
-  };
+    inputRef.current.focus()//fica com foco no input(input seja selecionado novamente após a limpeza)
+  }
 
   return (
     <div>
@@ -35,7 +35,6 @@ const HookUseRef = () => {
       <button onClick={() => setCounterB(counterB + 1)}>
         Contador B: {counterB}
       </button>
-      <hr />
       {/* 2 - useRef e DOM */}
       <form onSubmit={handleSubmit}>
         <input
@@ -47,7 +46,7 @@ const HookUseRef = () => {
         <input type="submit" value="Enviar" />
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default HookUseRef;
+export default HookUseRef
