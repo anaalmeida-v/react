@@ -7,6 +7,7 @@ import HookUseReducer from '../components/HookUseReducer'
 import HookUseEffect from '../components/HookUseEffect'
 import HookUseRef from '../components/HookUseRef'
 import HookUseCallback from '../components/HookUseCallback'
+import HookUseMemo from '../components/HookUseMemo'
 
 const Home = () => {
   const {contextValue} = useContext(SomeContext)
@@ -22,6 +23,7 @@ const Home = () => {
       <HookUseRef />
       <hr />
       <HookUseCallback />
+      <HookUseMemo />
     </div>
   )
 }
