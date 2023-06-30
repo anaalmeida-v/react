@@ -7,15 +7,16 @@ const dbPassword = process.env.DB_PASSWORD;
 const conn = async () => {
   try {
     const dbConn = await mongoose.connect(//conectando ao banco de dados
-      `mongodb+srv://${dbUser}:${dbPassword}@cluster.fvnirbj.mongodb.net/`
-    );//concatenando variáveis q contém user e senha do mongodbproj
+    `mongodb+srv://${dbUser}:${dbPassword}@cluster.fvnirbj.mongodb.net/`
+    ); //concatenando variáveis q contém user e senha do mongodbproj
 
-    console.log("Coonectou ao banco!")
+    console.log("Conectou ao banco!");
     return dbConn;
-  } catch (error) {//caso de erro na conexão
+  } catch (error) {
+    //caso de erro na conexão
     console.log(error);
   }
 };
 
 conn();
-module.exports=conn
+module.exports = conn;
