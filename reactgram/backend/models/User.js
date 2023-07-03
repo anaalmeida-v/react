@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const mongoose = require("mongoose")
+const { Schema } = mongoose
 //o models é dividido em duas partes: //Schema- esquema(como ele é constituído)
 //model - objeto que possui os métodos(inserir, deletar, ler)
 
@@ -15,7 +15,7 @@ const userSchema = new Schema(
   {
     timestamps: true, //2 campós serão criados no model(createdate/updatedate)-com isso qnd usuário é criado e atualizado, o horário e a data são marcados
   }
-);
-const User = mongoose.model("User", userSchema); //definindo model com o nome de "User" e com o Schema 'userSchema'
+)
+const User = mongoose.model("User", userSchema) //definindo model com o nome de "User" e com o Schema 'userSchema'
 
-module.exports = User;//exportando user
+module.exports = User//exportando user
