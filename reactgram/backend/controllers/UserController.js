@@ -14,10 +14,42 @@ const generateToken = (id) => {
 }
 
 //Register user and sign in
-const register = async(req, res) => {
-  res.send("Registro")
+const register = async (req, res) => {
+  const { name, email, password } = req.body //usando variáveis vindas do corpo da requisição
+
+  //check if user existts-verificando se usuário existe
+  const user = await User.findOne({ email }) //findOne- retorna o primeiro documento que ele encontrar na collection que corresponda com o campo name.
+  //verificando se model encontra usuário pelo email(pois email é único)
+
+  if (user) {
+    res.status(422).json({ errors: ["Por favor, utilize outro e-mail"] })
+    return
+  }
+
+  //Generate password hash / gerar hash da senha - uma hash é o que fica salvo no bd depois de salvar uma senha
+  const salt = await bcrypt.genSalt() //gera string aleatória
+  const passwordHash = await bcrypt.hash(password, salt) //gera senha aleatória para não haver por exemplo de alguém pegar uma senha pelo que há no banco de dados(acessando o banco de dados de forma indevida)
+
+  //create user
+  const newUser = await User.create({
+    name,
+    email,
+    password: passwordHash,
+  })
+
+  //checagem para saber se usuário foi criado com sucesso, retorna o token
+  if (!newUser) {
+    res
+      .status(422)
+      .json({ errors: ["Houve um erro, por favor tente mais tarde."] })
+    return
+  } //se user n foi criado com sucesso retorna msg de erro(json) + err422
+  res.status(201).json({
+    _id: newUser._id,
+    token: generateToken(newUser._id),
+  }) //se foi criado com sucesso retorna 201(status de criacao com sucess)+obj em formato json com id do usuário e o token(criado a partir do id do usuário)
 }
 
 module.exports = {
-  register
+  register,
 }
