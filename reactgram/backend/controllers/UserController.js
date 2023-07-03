@@ -77,7 +77,15 @@ const login = async (req, res) => {
   })
 }
 
+//get current logged in user - obter usuário logado-atual
+  const getCurrentUser = async(req, res)=> {
+    const user = req.user//usuário da requisicao
+
+    res.status(200).json(user)//retorna um json com os dados do usuário
+  }
+
 module.exports = {
   register,
   login,
+  getCurrentUser,
 }
