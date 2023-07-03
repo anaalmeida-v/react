@@ -50,6 +50,12 @@ const register = async (req, res) => {
   }) //se foi criado com sucesso retorna 201(status de criacao com sucess)+obj em formato json com id do usuário e o token(criado a partir do id do usuário)
 }
 
+//fazer login do usuário
+const login = (req, res) => {
+  res.send("Login")
+}
+
 module.exports = {
   register,
+  login,
 }
