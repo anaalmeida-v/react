@@ -13,7 +13,7 @@ const photoInsertValidation = () => {
         body("image")
             .custom((value, { req }) => {
                 if (!req.file) {//se não houver arquivo na requisição/não veio imagem
-                    throw new Error("A imgame é obrigatória")
+                    throw new Error("A imagem é obrigatória")
                 }
                 return true
             })
