@@ -85,8 +85,14 @@ const login = async (req, res) => {
     res.status(200).json(user)//retorna um json com os dados do usuário
   }
 
+  //Update an user
+  const update=async(req,res)=>{
+    res.send("Update")
+  }
+
 module.exports = {
   register,
   login,
   getCurrentUser,
+  update
 }
