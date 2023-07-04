@@ -77,6 +77,7 @@ const login = async (req, res) => {
   })
 }
 
+//Aula194 -Resgatando usuário autenticado
 //get current logged in user - obter usuário logado-atual
   const getCurrentUser = async(req, res)=> {
     const user = req.user//usuário da requisicao
