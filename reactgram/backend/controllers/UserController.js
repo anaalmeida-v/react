@@ -114,7 +114,7 @@ const update = async (req, res) => {
   if (profileImage) {
     user.profileImage = profileImage
   }
-  
+
   if (bio) {
     user.bio = bio
   }
@@ -124,9 +124,29 @@ const update = async (req, res) => {
   res.status(200).json(user)
 }
 
+//Get user by id - Obter usuário por id
+const getUserById = async (req, res) => {
+
+  const { id } = req.params//extraindo id da url(por ser um Get - dado > desestruturação > valor)
+
+  try {
+    const user = await User.findById(id).select("-passsword")//encontra usuário pelo id
+
+    ////Check if user exists - checando se user existe
+    if (!user) {
+      res.status(404).json({ errors: ["Usuário não encontrado."] })
+    }
+
+    res.status(200).json(user)//se deu tudo certo não passa pelo if e exibe os dados do usuário em json
+  } catch (error) {
+    res.status(404).json({ errors: ["Usuário não encontrado."] })
+  }
+}
+
 module.exports = {
   register,
   login,
   getCurrentUser,
   update,
+  getUserById
 }

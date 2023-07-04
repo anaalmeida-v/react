@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 
 //Controller
-const { register, login, getCurrentUser, update} = require("../controllers/UserController") //desestruturação de função vinda do controller
+const { register, login, getCurrentUser, update, getUserById} = require("../controllers/UserController") //desestruturação de função vinda do controller
 
 //Middlewares
 const validate = require("../middlewares/handleValidation")
@@ -19,5 +19,6 @@ router.post("/register", userCreateValidation(), validate, register) //rota de p
 router.post("/login", loginValidation(), validate, login)
 router.get("/profile", authGuard, getCurrentUser)
 router.put("/", authGuard, userUpdateValidation(), validate, imageUpload.single("profileImage"), update)
+router.get("/:id", getUserById)
 
 module.exports = router
