@@ -2,7 +2,7 @@ const User = require("../models/User") //importando model
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const { default: mongoose } = require("mongoose")
-
+//const mongoose = require("mongoose")
 const jwtSecret = process.env.JWT_SECRET
 
 //Generate user token
@@ -79,20 +79,54 @@ const login = async (req, res) => {
 
 //Aula194 -Resgatando usuário autenticado
 //get current logged in user - obter usuário logado-atual
-  const getCurrentUser = async(req, res)=> {
-    const user = req.user//usuário da requisicao
+const getCurrentUser = async (req, res) => {
+  const user = req.user//usuário da requisicao
 
-    res.status(200).json(user)//retorna um json com os dados do usuário
+  res.status(200).json(user)//retorna um json com os dados do usuário
+}
+
+//Update an user
+const update = async (req, res) => {
+  const { name, password, bio } = req.body//parâmetros que podem vir ou não da requisição
+
+  let profileImage = null//ainda será preenchida
+
+  if (req.file) {//checando se chegou algo na propriedade da req 'file'
+    profileImage = req.file.filename//nome de arquivo modificado
   }
 
-  //Update an user
-  const update=async(req,res)=>{
-    res.send("Update")
+  const reqUser = req.user//usuário da req
+
+  const user = await User.findById(new mongoose.Types.ObjectId(reqUser._id)).select("-password")//passando string da req para tipo de object id, tirando password que não é necessário
+  //esse id é vindo do token
+  if (name) {
+    user.name = name
   }
+
+  if (password) {
+    //Generate password hash / gerar hash da senha - uma hash é o que fica salvo no bd depois de salvar uma senha
+    const salt = await bcrypt.genSalt() //gera string aleatória
+    const passwordHash = await bcrypt.hash(password, salt)
+
+    user.password = passwordHash
+  }
+
+  if (profileImage) {
+    user.profileImage = profileImage
+  }
+  
+  if (bio) {
+    user.bio = bio
+  }
+
+  await user.save()
+
+  res.status(200).json(user)
+}
 
 module.exports = {
   register,
   login,
   getCurrentUser,
-  update
+  update,
 }
