@@ -129,13 +129,13 @@ const likePhoto = async (req, res) => {
 
     //check if photo exists - verificando se foto existe
     if (!photo) {
-        res.status(404).json({ errors: ["Foto não encontrada!"]})
+        res.status(404).json({ errors: ["Foto não encontrada!"] })
         return
     }
 
     //check if user already liked the photo - verificando se usuário já deu like na foto
-    if(photo.likes.includes(reqUser._id)){//verificando se array de likes inclui id do usuario
-        res.status(404).json({ errors: ["Você já curtiu a foto!"]})
+    if (photo.likes.includes(reqUser._id)) {//verificando se array de likes inclui id do usuario
+        res.status(404).json({ errors: ["Você já curtiu a foto!"] })
         return
     }
 
@@ -144,8 +144,37 @@ const likePhoto = async (req, res) => {
 
     photo.save()//atualizando foto(como se fosse um update)
 
-    res.status(200).json({photoId: id, userId: reqUser._id, message:"A foto foi curtida."})
+    res.status(200).json({ photoId: id, userId: reqUser._id, message: "A foto foi curtida." })
     //id-photo q veio da url//id-user//message
+}
+
+//Comment functionality - funcionalidade comentário  
+const commentPhoto = async (req, res) => {
+    const { id } = req.params//id da foto pelo parâmetro - url
+    const { comment } = req.body//comentário do corpo dea requisição
+    reqUser = req.user//usuário req
+    const user = await User.findById(reqUser._id)//usuário do model
+    const photo = await Photo.findById(id)
+
+    //check if photo exists - verificando se foto existe
+    if (!photo) {
+        res.status(404).json({ errors: ["Foto não encontrada!"] })
+        return
+    }
+    //se foto existe vai pular direto para a inclusão do comment
+
+    //Put a comment in the array comments - Coloque um comentário nos array de comentários
+    const userComment = { //dados do comentário
+        comment, //texto de fato do comentário
+        userName: user.name,
+        userImage: user.profileImage,
+        userId: user._id
+    }
+    photo.comments.push(userComment)//inserindo comentário do usuário na rede de comentários
+    
+    await photo.save()//atualizando foto(como se fosse um update)
+
+    res.status(200).json({comment: userComment, message: "O comentário foi adicionado com sucesso!"})
 }
 
 module.exports = {
@@ -156,4 +185,5 @@ module.exports = {
     getPhotoById,
     updatePhoto,
     likePhoto,
+    commentPhoto
 }
