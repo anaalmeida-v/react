@@ -35,20 +35,21 @@ const deletePhoto = async (req, res) => {
     const reqUser = req.user
 
     try {
-        const photo = await Photo.findById(id)
+        const photo = await Photo.findById(id)//extraindo foto do model
 
         //Check if photo exists - Verificando se a foto existe
         if (!photo) {
             res.status(404).json({ errors: ["Foto não encontrada!"] })
-            return
+            return//quando um erro é gerado, o ideal é retornar para evitar uma possível continuação da função
         }
 
         //Check if photo belongs to user - Verificando se a foto pertence ao usuário
-        if (!photo.userId.equals(reqUser._id)) {
+        if (!photo.userId.equals(reqUser._id)) {//equals - método do mongoose//verificando se a informação de que o user do id da foto é igual o id do usuário é falsa
             res.status(422).json({ errors: ["Ocorreu um erro, por favor tente novamente mais tarde."] })
         }
 
         await Photo.findByIdAndDelete(photo._id)
+        //encontra foto pelo id e deleta
 
         res.status(200).json({ id: photo._id, message: "Foto excluída com sucesso!" })
     } catch (error) {
@@ -57,7 +58,18 @@ const deletePhoto = async (req, res) => {
     }
 }
 
+//Get all photos - Obter todas as fotos
+const getAllPhotos = async (req, res) => {
+
+    const photos = await Photo.find({}).sort([["createdAt", -1]]).exec()//.find(): criar um obj que filtra, obj vazio busca todas
+    //.sort(): ordena// [["createdAt", -1]]: ordenas pelos criados por último, + recentemente(+novos)
+
+    return res.status(200).json(photos)
+}
+
+
 module.exports = {
     insertPhoto,
-    deletePhoto
+    deletePhoto,
+    getAllPhotos
 }
