@@ -77,9 +77,23 @@ const getUserPhotos = async (req, res) => {
     return res.status(200).json(photos)//retorna dados da foto em json 
 }
 
+//get photo by id - resgate de foto por id(interessante para quando vamos ver o detalhe de uma foto individualmente)
+const getPhotoById = async (req, res) => {
+    const { id } = req.params
+    const photo = await Photo.findById(id)
+
+    //check if photo exists - verificando se foto existe
+    if (!photo) {
+        res.status(404).json({ errors: ["Foto não encontrada!"] })
+        return
+    }
+    return res.status(200).json(photo)
+}
+
 module.exports = {
     insertPhoto,
     deletePhoto,
     getAllPhotos,
-    getUserPhotos
+    getUserPhotos,
+    getPhotoById
 }
