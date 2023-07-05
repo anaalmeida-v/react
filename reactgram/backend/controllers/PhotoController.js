@@ -171,10 +171,19 @@ const commentPhoto = async (req, res) => {
         userId: user._id
     }
     photo.comments.push(userComment)//inserindo comentário do usuário na rede de comentários
-    
+
     await photo.save()//atualizando foto(como se fosse um update)
 
-    res.status(200).json({comment: userComment, message: "O comentário foi adicionado com sucesso!"})
+    res.status(200).json({ comment: userComment, message: "O comentário foi adicionado com sucesso!" })
+}
+
+//Search photos by title - Pesquisar fotos por título
+const searchPhotos = async (req, res) => {
+    const { q } = req.query//esperando argumento q da query string da url
+
+    const photos = await Photo.find({title: new RegExp(q, "i")}).exec()//RegExp-objeto é usado para combinar texto com um padrão. /String "i" será ignorada pois as regex são case sensitive
+
+    res.status(200).json(photos)
 }
 
 module.exports = {
@@ -185,5 +194,6 @@ module.exports = {
     getPhotoById,
     updatePhoto,
     likePhoto,
-    commentPhoto
+    commentPhoto,
+    searchPhotos
 }
