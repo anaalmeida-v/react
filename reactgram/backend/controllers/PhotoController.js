@@ -121,11 +121,39 @@ const updatePhoto = async (req, res) => {
     res.status(200).json({ photo, message: "Foto atualizada com sucesso" })//envia foto com dado atualizado e mensagem
 }
 
+//Like functionality - funcionalidade like  
+const likePhoto = async (req, res) => {
+    const { id } = req.params//id da foto pelo parâmetro
+    reqUser = req.user//usuário req
+    const photo = await Photo.findById(id)
+
+    //check if photo exists - verificando se foto existe
+    if (!photo) {
+        res.status(404).json({ errors: ["Foto não encontrada!"]})
+        return
+    }
+
+    //check if user already liked the photo - verificando se usuário já deu like na foto
+    if(photo.likes.includes(reqUser._id)){//verificando se array de likes inclui id do usuario
+        res.status(404).json({ errors: ["Você já curtiu a foto!"]})
+        return
+    }
+
+    //Put user id in likes array - colocando id do usuário no array de likes
+    photo.likes.push(reqUser._id)
+
+    photo.save()//atualizando foto(como se fosse um update)
+
+    res.status(200).json({photoId: id, userId: reqUser._id, message:"A foto foi curtida."})
+    //id-photo q veio da url//id-user//message
+}
+
 module.exports = {
     insertPhoto,
     deletePhoto,
     getAllPhotos,
     getUserPhotos,
     getPhotoById,
-    updatePhoto
+    updatePhoto,
+    likePhoto,
 }
