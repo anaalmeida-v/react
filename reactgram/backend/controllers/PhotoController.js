@@ -67,9 +67,19 @@ const getAllPhotos = async (req, res) => {
     return res.status(200).json(photos)
 }
 
+//Get user photos - resgatndo foto do usuário
+const getUserPhotos = async (req, res) => {
+
+    const { id } = req.params//id da url pois posso estar buscando tanto a minha foto, quanto a de outra pessoa
+
+    const photos = await Photo.find({ userId: id }).sort([['createdAt', -1]]).exec()
+    //id od usuario + id da foto
+    return res.status(200).json(photos)//retorna dados da foto em json 
+}
 
 module.exports = {
     insertPhoto,
     deletePhoto,
-    getAllPhotos
+    getAllPhotos,
+    getUserPhotos
 }
