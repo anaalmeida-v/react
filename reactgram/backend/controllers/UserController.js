@@ -50,20 +50,87 @@ const register = async (req, res) => {
   }) //se foi criado com sucesso retorna 201(status de criacao com sucess)+obj em formato json com id do usuário e o token(criado a partir do id do usuário)
 }
 
+//get current logged in user - obter usuário logado-atual
+const getCurrentUser = async (req, res) => {
+  const user = req.user//usuário da requisicao
+
+  res.status(200).json(user)//retorna um json com os dados do usuário
+}
+
+const update = async (req, res) => {
+  const { name, password, bio } = req.body//parâmetros que podem vir ou não da requisição
+
+  let profileImage = null//ainda será preenchida
+
+  if (req.file) {//checando se chegou algo na propriedade da req 'file'
+    profileImage = req.file.filename//nome de arquivo modificado
+  }
+
+  const reqUser = req.user//usuário da req
+
+  const user = await User.findById(new mongoose.Types.ObjectId(reqUser._id)).select("-password")//passando string da req para tipo de object id, tirando password que não é necessário
+  //esse id é vindo do token
+  if (name) {
+    user.name = name
+  }
+
+  if (password) {
+    //Generate password hash / gerar hash da senha - uma hash é o que fica salvo no bd depois de salvar uma senha
+    const salt = await bcrypt.genSalt() //gera string aleatória
+    const passwordHash = await bcrypt.hash(password, salt)
+
+    user.password = passwordHash
+  }
+
+  if (profileImage) {
+    user.profileImage = profileImage
+  }
+
+  if (bio) {
+    user.bio = bio
+  }
+
+  await user.save()
+
+  res.status(200).json(user)
+}
+
+//Get user by id - Obter usuário por id
+const getUserById = async (req, res) => {
+
+  const { id } = req.params//extraindo id da url(por ser um Get - dado > desestruturação > valor)
+
+  try {
+    const user = await User.findById(id).select("-passsword")//encontra usuário pelo id
+
+    ////Check if user exists - checando se user existe
+    if (!user) {
+      res.status(404).json({ errors: ["Usuário não encontrado."] })
+    }
+
+    res.status(200).json(user)//se deu tudo certo não passa pelo if e exibe os dados do usuário em json
+  } catch (error) {
+    res.status(404).json({ errors: ["Usuário não encontrado."] })
+  }
+}
+
 //fazer login do usuário
-const login = async(req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body//chaves vindas do body necessárias para fazer login
 
-  const user = await User.findOne({email})
+  const user = await User.findOne({ email })
 
   //check if user exists
-  if(!user) {
-    res.status(404).json({errors:["Usuário não encontrado"]})
-    return  
+  if (!user) {
+    res.status(404).json({ errors: ["Usuário não encontrado"] })
+    return
   }//se usuário n existir será exibido um err404 + mensagem de erro
 }
 
 module.exports = {
   register,
   login,
+  getCurrentUser,
+  update,
+  getUserById
 }

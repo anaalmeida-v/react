@@ -1,10 +1,10 @@
 //ROTAS DA APLICAÇÃO
 
-const express = require("express") //chamada express
-const router = express() //chamada router
+const express = require("express");
+const router = express();
 
-router.use("/api/users", require("./UserRoutes"))//prefixo de api
-router.use("/api/photos", require("./PhotoRoutes"))
+router.use("/api/users", require("./UserRoutes.js"))//prefixo de api
+router.use("/api/photos", require("./PhotoRoutes.js"))
 
 //test route
 router.get('/', (req, res) => {
