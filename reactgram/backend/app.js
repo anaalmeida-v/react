@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 //Solve CORS - quando as requisições são executadas pelo mesmo domínio
-app.use(cors({ credentials: true, origin: "http://localhost:3000" })) //origin - de onde esta vindo a requisição
+app.use(cors({ credentials: true, origin: "http://localhost:3001" })) //origin - de onde esta vindo a requisição
 
 //Upload diretório - diretório de upload de imagens
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")))//juntando nome do diretório atual(_dirname) com /uploads

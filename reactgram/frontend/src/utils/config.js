@@ -19,7 +19,7 @@ export const requestConfig = (method, data, token = null, image = null) => {
         }//só é necessário definir o método e no servidor a função se resolve sozinha
     } else {//quando vem dados
         config = {
-            method,
+            method: method,
             body: JSON.stringify(data),//dados convertidos para json
             headers: {
                 "Context-Type": "application/json"
