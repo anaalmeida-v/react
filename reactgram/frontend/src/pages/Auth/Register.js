@@ -5,12 +5,20 @@ import { Link } from 'react-router-dom'
 
 //Hooks
 import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+
+//Redux
+import { register, reset } from '../../slices/authSlice'
 
 const Register = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+
+  const dispatch = useDispatch()//nos permite utilizar as funções reducer
+
+  const { loading, error } = useSelector((state) => state.auth)//nos permite escolher qual estado e de qual reducer estou usando
 
   const handleSubmit = (e) => {
     e.preventDefault()//previnindo evento de envio de formulário
@@ -23,7 +31,13 @@ const Register = () => {
     }
 
     console.log(user)
+    dispatch(register(user))
   }
+
+  //Clean all auth states - limpar todos so states de autenticação(resetar tudo)
+  useEffect(()=>{
+    dispatch(reset())
+  }, [dispatch])//fazer um useEffect sempre que rola um dispatch faz com que seja possível disparar o reset, assim o reset fica automatizado antes de disparar qualquer função que dispara uma função async
 
   return (
     <div id="register">
