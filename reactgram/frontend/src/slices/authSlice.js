@@ -29,6 +29,18 @@ export const logout = createAsyncThunk("auth/logout", async () => {//auth/logout
     await authService.logout()
 })//funcao async usa authService(serviço de autenticação)para fazer o logout do usuário atualmente autenticado
 
+//Sign in an user - Logar um usuário
+export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {//recebe usuário e thunkAPI(nos permite utilizar funções extras ex.: para a execução e identificar um erro da api)
+    const data = await authService.login(user)//user vem do componente login//tentativa de fazer login do mesmo 
+
+    //check for errors - checagem de erros
+    if (data.errors) {//se houver erros
+        return thunkAPI.rejectWithValue(data.errors[0])//rejeitando requisição pois houve algo de errado manualmente
+    }//errors vem de backend onde existem diversas mensagens, com o 0 de índice(1º elemento do array), será sempre exibido o 1º erro
+
+    return data//retorno do usuário cadastrado
+})
+
 export const authSlice = createSlice({//importando authSlice com funções criadas
     name: "auth",//deve ser renomeado, e assim que ele será chamado na storage - auth
     initialState,//estado inicial
@@ -42,7 +54,7 @@ export const authSlice = createSlice({//importando authSlice com funções criad
     extraReducers: (builder) => {//parte das execuções que são feitas na api//builder-construtor: cria ações separadamente
         builder.addCase(register.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
             state.loading = true
-            state.error = null
+            state.error = false
             //adicionando casos
         }).addCase(register.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
             state.loading = false
@@ -58,6 +70,19 @@ export const authSlice = createSlice({//importando authSlice com funções criad
             state.success = true
             state.error = null
             state.user = null
+        }).addCase(login.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
+            state.loading = true
+            state.error = false
+            //adicionando casos
+        }).addCase(login.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+            state.loading = false
+            state.success = true
+            state.error = null
+            state.user = action.payload//é possível trafegar dados, não apenas mexer nos states exibição na tela
+        }).addCase(login.rejected, (state, action) => {//significa que a operação falhou tem um action pois tem o dado da mensagem de erro
+            state.loading = false//false pois já respondeu algo, logo, não está carregando
+            state.error = action.payload//baseado nisso, tem como pegar o erro e exibir na tela
+            state.user = null//está tentando cadastrar ou logar, mas não há usuário
         })
     }
 })
