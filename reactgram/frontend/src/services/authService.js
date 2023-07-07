@@ -28,9 +28,31 @@ const logout = () => {
     localStorage.removeItem("user")//remove user do localstorage
 }
 
+//Sign in an user - Logar um usuário
+const login = async (data) => {//função assíncrona recebe dados
+
+    const config = requestConfig("POST", data)//configs do request config: envio de dados + dados(email e senha)
+
+    try {
+        const res = await fetch(api + "/users/login", config)
+            .then((res) => res.json())//pega dados e transforma no texto na requisição
+            .catch((err) => err)//pega possível erro da requisição e retorna
+
+        if(res){//se resposta veio
+            localStorage.setItem("user", JSON.stringify(res))//pega dados de user na localstorage e converte para string json
+        }
+
+        return res
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const authService = {
     register,
-    logout
+    logout,
+    login
 };
 
 export default authService;
