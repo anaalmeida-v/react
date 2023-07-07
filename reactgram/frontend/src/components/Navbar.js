@@ -4,16 +4,37 @@ import './Navbar.css'
 import { NavLink, Link } from 'react-router-dom'
 import { BsSearch, BsHouseDoorFill, BsFillPersonFill, BsFillCameraFill } from 'react-icons/bs' //icones
 
+//Hooks
+import { useState } from 'react'//gerenciar estados
+import { useAuth } from '../hooks/useAuth'//para usar autenticação
+import { useDispatch, useSelector } from 'react-redux'//para quando tivermos configs de logout por exemplo//para resgatar state do store do reducer
+import { useNavigate } from 'react-router-dom'//redirecionar usuários
+
 const Navbar = () => {
+  const { auth } = useAuth()
+  const { user } = useSelector((state) => state.auth)//pegando usuário state da autenticação
+
   return <nav id="nav">
     <Link to="/">
       ReactGram
     </Link>
     <form id="search-form"><BsSearch /><input type='text' placeholder='Pesquisar' /></form>
     <ul id='nav-links'>
-      <li><NavLink to="/"><BsHouseDoorFill /></NavLink></li>
-      <li><NavLink to="/login">Entrar</NavLink></li>
-      <li><NavLink to="/register">Cadastrar</NavLink></li>
+      {auth ? (//se usuário tiver autenticado exibe um navlink com o ícone de home
+        <>
+          <li><NavLink to="/"><BsHouseDoorFill /></NavLink></li>
+          {user && (//se usuário estiver logado exibe um navlink com um icone que encaminha para url /users/id-user
+            <li><NavLink to={`/users/${user._id}`} /><BsFillCameraFill /></li>//página do usuário
+          )}
+          <li><NavLink to="/profile" /><BsFillPersonFill /></li>{/* perfil usuário logado */}
+          <li><span>Sair</span></li>
+        </>
+      ) : (
+        <>
+          <li><NavLink to="/login">Entrar</NavLink></li>
+          <li><NavLink to="/register">Cadastrar</NavLink></li>
+        </>
+      )}
     </ul>
   </nav>
 }
