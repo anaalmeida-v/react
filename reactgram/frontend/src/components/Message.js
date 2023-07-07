@@ -1,9 +1,9 @@
-import './Message.css'
+import "./Message.css"
 
-const Message = ({msg, type}) => {
+const Message = ({ msg, type }) => {//msg + tipo de msg
   return (
     <div className={`message ${type}`}>
-        <p>{msg}</p>
+      <p>{msg}</p>
     </div>
   )
 }

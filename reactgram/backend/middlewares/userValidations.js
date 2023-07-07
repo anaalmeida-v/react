@@ -19,14 +19,14 @@ const userCreateValidation = () => {
       .withMessage("A senha é obrigatória!!")
       .isLength({ min: 5 }) //senha precisa ter no min 5 letras
       .withMessage("A senha precisa ter no mínimo 5 caracteres."),
-    body("confirmpassword")
+    body("confirmPassword")
       .isString()
-      .withMessage("A confirmação de senha é obrigatória!!")
+      .withMessage("A confirmação de senha é obrigatória.")
       .custom((value, { req }) => {
         //value-valor recebido do campo
         if (value != req.body.password) {
           //comparando valor com senha enviada pela requisição
-          throw new Error("As senhas não são iguais")
+          throw new Error("As senhas não são iguais.");
         }
         return true
       }),
@@ -41,7 +41,7 @@ const loginValidation = () => {
       .withMessage("O email é obrigatório!")
       .isEmail()
       .withMessage("Insira um email válido."),
-    body("password").isString().withMessage("A senha é obrigatória!"),
+    body("password").isString().withMessage("A senha é obrigatória."),
   ]
 }
 

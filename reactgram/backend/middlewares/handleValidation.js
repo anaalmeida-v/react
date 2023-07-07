@@ -3,7 +3,7 @@ const { validationResult } = require("express-validator")//método 'validationRe
 const validate = (req, res, next) => {//os parâmetros recebidos é o padrão do middler
   //next - quando prosseguimos ou não baseado em algum fato que aconteceu na requisição(deixar, prosseguir, parar)
 
-  const errors = validationResult(req) //erros vem da requisição
+  const errors = validationResult(req)//erros vem da requisição
   //toda requisição que obter um middler de validação retornará possíveis erros
 
   if (errors.isEmpty()) {
@@ -20,4 +20,4 @@ const validate = (req, res, next) => {//os parâmetros recebidos é o padrão do
   })
 }
 
-module.exports = validate
+module.exports = validate 
