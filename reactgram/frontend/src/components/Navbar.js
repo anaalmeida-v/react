@@ -10,9 +10,23 @@ import { useAuth } from '../hooks/useAuth'//para usar autenticação
 import { useDispatch, useSelector } from 'react-redux'//para quando tivermos configs de logout por exemplo//para resgatar state do store do reducer
 import { useNavigate } from 'react-router-dom'//redirecionar usuários
 
+//Reducer
+import { logout, reset } from '../slices/authSlice'
+
 const Navbar = () => {
   const { auth } = useAuth()
   const { user } = useSelector((state) => state.auth)//pegando usuário state da autenticação
+
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()//enviar ou despachar uma ação para um "reducer" em uma arquitetura Flux ou Redux
+
+  const handleLogout = () => {
+    dispatch(logout())
+    dispatch(reset())
+
+    navigate("/login")//como o usuário será desconectado ele é redirecionado para login
+  }
 
   return <nav id="nav">
     <Link to="/">
@@ -27,7 +41,7 @@ const Navbar = () => {
             <li><NavLink to={`/users/${user._id}`} /><BsFillCameraFill /></li>//página do usuário
           )}
           <li><NavLink to="/profile" /><BsFillPersonFill /></li>{/* perfil usuário logado */}
-          <li><span>Sair</span></li>
+          <li><span onClick={handleLogout}>Sair</span></li>
         </>
       ) : (
         <>
