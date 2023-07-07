@@ -22,8 +22,15 @@ const register = async (data) => {//funcao async. que recebe dados do usuário
         console.log(error);
     }
 };
+
+//Logout an user - sair de um usuário
+const logout = () => {
+    localStorage.removeItem("user")//remove user do localstorage
+}
+
 const authService = {
     register,
+    logout
 };
 
 export default authService;

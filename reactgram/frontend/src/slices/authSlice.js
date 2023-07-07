@@ -22,8 +22,12 @@ export const register = createAsyncThunk("auth/register", async (user, thunkAPI)
     }//errors vem de backend onde existem diversas mensagens, com o 0 de índice(1º elemento do array), será sempre exibido o 1º erro
 
     return data//retorno do usuário cadastrado
-}
-)
+})
+
+//Logout an user - sair de um usuário
+export const logout = createAsyncThunk("auth/logout", async () => {//auth/logout nome da createAsyncThunk
+    await authService.logout()
+})//funcao async usa authService(serviço de autenticação)para fazer o logout do usuário atualmente autenticado
 
 export const authSlice = createSlice({//importando authSlice com funções criadas
     name: "auth",//deve ser renomeado, e assim que ele será chamado na storage - auth
@@ -49,6 +53,11 @@ export const authSlice = createSlice({//importando authSlice com funções criad
             state.loading = false//false pois já respondeu algo, logo, não está carregando
             state.error = action.payload//baseado nisso, tem como pegar o erro e exibir na tela
             state.user = null//está tentando cadastrar ou logar, mas não há usuário
+        }).addCase(logout.fulfilled, (state, action) => {
+            state.loading = false
+            state.success = true
+            state.error = null
+            state.user = null
         })
     }
 })
