@@ -17,15 +17,17 @@ const Login = () => {
 
   const dispatch = useDispatch()
 
-  const [loading, error] = useSelector((state) => state.auth)
+  const { loading, error } = useSelector((state) => state.auth)
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
     const user = {
       email,
-      password
+      password,
     }
+
+    console.log(user)
 
     dispatch(login(user))//função de login passando usuário
   }

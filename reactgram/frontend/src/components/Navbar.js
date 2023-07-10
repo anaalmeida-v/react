@@ -24,6 +24,7 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout())
     dispatch(reset())
+    //não é necessário o useEffect pois é apenas uma função
 
     navigate("/login")//como o usuário será desconectado ele é redirecionado para login
   }
