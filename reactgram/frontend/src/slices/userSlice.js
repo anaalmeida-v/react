@@ -9,14 +9,15 @@ const initialState = {//estado inicial com user vazio, mensage é nula
     message: null
 }
 
-//Get user details
+//Get user details - Obter detalhes do usuário
 export const profile = createAsyncThunk(
-    "user/profile",
-    async (user, thunkAPI) => {
-        const token = thunkAPI.getState().auth.user.token
+    "user/profile",//renomeando funcao
+    async (user, thunkAPI) => {//thunkAPI vai auxiliar para pegar o state
+        const token = thunkAPI.getState().auth.user.token//podem ser obtidos dados do redux e do thunkAPI/.user.: salvo no authSlice
 
-        const data = await userService.profile(user, token)
 
+        const data = await userService.profile(user, token)//obtemos método profile do userService com user e token
+        console.log(data);
         return data
     }
 )
@@ -34,12 +35,12 @@ export const userSlice = createSlice({
             state.loading = true
             state.error = null
         })
-            .addCase(profile.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
-                state.loading = false
-                state.success = true
-                state.error = null
-                state.user = action.payload//é possível trafegar dados, não apenas mexer nos states exibição na tela
-            })
+        .addCase(profile.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+            state.loading = false
+            state.success = true
+            state.error = null
+            state.user = action.payload//é possível trafegar dados, não apenas mexer nos states exibição na tela
+        })
     },
 })
 export const { resetMessage } = userSlice.actions//função de resetar mensagem
