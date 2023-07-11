@@ -126,7 +126,7 @@ const update = async (req, res) => {
 const getUserById = async (req, res) => {
   const { id } = req.params//extraindo id da url(por ser um Get - dado > desestruturação > valor)
 
-  const user = await User.findById(mongoose.Types.ObjectId(id)).select("-password")//encontra usuário pelo id
+  const user = await User.findById(id).select("-password")//encontra usuário pelo id
 
   ////Check if user exists - checando se user existe
   if (!user) {
