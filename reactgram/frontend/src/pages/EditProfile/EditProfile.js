@@ -16,8 +16,10 @@ const EditProfile = () => {
 
     const dispatch = useDispatch()
 
+    //dados  vem do redux
     const { user, message, error, loading } = useSelector((state) => state.user)//estados vindos do user
 
+    //variáveis necessárias
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -32,27 +34,41 @@ const EditProfile = () => {
 
     //fill form with user data - preencher formulário com dados do usuário
     useEffect(() => {
-        if (user) {
+        if (user) {//se tiver usuário, retornará os dados:
             setName(user.name)
             setEmail(user.email)
             setBio(user.bio)
         }
-    }, [user])
+    }, [user])//sempre que usuário mudar useEffect é disparado
 
-    const handleSubmit = async(e) => {
-        e.preventDefault()
+    const handleSubmit = (e) => {
+        e.preventDefault()//utilizada para prevenir o comportamento padrão de um evento.
     }
 
+    const handleFile = (e) => {//setar valores de imagem
+        //image preview
+        const image = e.target.files[0];
+
+        setPreviewImage(image)
+
+        //update image state - atualizar estado da imagem
+        setProfileImage(image)
+
+    }
     return (
         <div id="edit-profile">
             <h2>Edite seus dados</h2>
             <p className="subtitle">Adicione uma imagem de perfil e conte mais sobre você...</p>
-            {/* preview da imagem */}
+            {(user.profileImage || previewImage) && (
+                <img className='profile-image'
+                    src={previewImage ? URL.createObjectURL(previewImage) : `${uploads}/users/${user.profileImage}`} alt={user.name}//url.create.....:transformando imagem em html
+                />//exibe dados da previewImage ou a imagem(caminho da imagem)
+            )}{/*usuario tem imagem ou houve mudanças em previewImage*/}
             <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="Nome" onChange={(e) => setName(e.target.value)} value={name} />
                 <input type="email" placeholder="E-mail" disabled value={email} />
                 <label>
-                    <span>imagem do Perfil: </span><input type="file" /></label>
+                    <span>imagem do Perfil: </span><input type="file" onChange={handleFile} /></label>
                 <label>
                     <span>Bio: </span><input type="text" placeholder="Descrição do perfil" onChange={(e) => setBio(e.target.value)} value={bio} />
                 </label>

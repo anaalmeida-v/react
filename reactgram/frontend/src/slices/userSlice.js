@@ -16,9 +16,9 @@ export const profile = createAsyncThunk(
         const token = thunkAPI.getState().auth.user.token//podem ser obtidos dados do redux e do thunkAPI/.user.: salvo no authSlice
 
 
-        const data = await userService.profile(user, token)//obtemos método profile do userService com user e token
+        const data = await userService.profile(user, token)//acessa método profile do userService passando user e token
         console.log(data);
-        return data
+        return data//envia dados obtidos através do service
     }
 )
 
