@@ -17,18 +17,6 @@ const profile = async (data, token) => {
     }
 };
 
-//get user details - obter detalhes do usuário
-const getUserDetails = async (id) => {//
-    const config = requestConfig("GET")
-    try {
-        const res = await fetch(api + "/users/: id, config")
-            .then((res) => res.json())
-            .catch((err) => err)
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 //Update user details - Atualizar detalhes do usuário
 const updateProfile = async (data, token) => {//token-permite a autenticação/data-preciso de dados para atualização do usuário
 
@@ -45,7 +33,20 @@ const updateProfile = async (data, token) => {//token-permite a autenticação/d
     }
 };
 
-const userService = {
+//get user details - obter detalhes do usuário
+const getUserDetails = async(id) => {//os detalhes são obtidos a partir do id
+    const config = requestConfig("GET")//config da requisicao
+    try {
+        const res = await fetch(api + "/users/" + id, config)
+            .then((res) => res.json())//transforma em obj js
+            .catch((err) => err)//retorna possível erro
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const userService = {//export functions
     profile,
     updateProfile,
     getUserDetails
