@@ -22,6 +22,21 @@ export const profile = createAsyncThunk(
     }
 )
 
+//update user details - atualizar detalhes do usuário
+export const updateProfile = createAsyncThunk("user/update", async (user, thunkAPI) => {
+    const token = thunkAPI.getState.auth.user.token
+
+    const data = await userService.updateProfile(user, token)
+
+    //check for erros - verificar se há erros
+    if (data.errors) {
+        return thunkAPI.rejectWithValue(data.errors[0])
+    }
+
+    return data
+})
+
+
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -35,13 +50,28 @@ export const userSlice = createSlice({
             state.loading = true
             state.error = null
         })
-        .addCase(profile.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
-            state.loading = false
-            state.success = true
-            state.error = null
-            state.user = action.payload//é possível trafegar dados, não apenas mexer nos states exibição na tela
-        })
+            .addCase(profile.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+                state.loading = false
+                state.success = true
+                state.error = null
+                state.user = action.payload//é possível trafegar dados, não apenas mexer nos states exibição na tela
+            }).addCase(updateProfile.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
+                state.loading = true
+                state.error = false
+                //adicionando casos
+            }).addCase(updateProfile.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+                state.loading = false;
+                state.success = true;
+                state.error = null;
+                state.user = action.payload;
+                state.message = "Usuário atualizado com sucesso!";//é possível trafegar dados, não apenas mexer nos states exibição na tela
+            }).addCase(updateProfile.rejected, (state, action) => {//significa que a operação falhou tem um action pois tem o dado da mensagem de erro
+                state.loading = false//false pois já respondeu algo, logo, não está carregando
+                state.error = action.payload//baseado nisso, tem como pegar o erro e exibir na tela
+                state.user = null//está tentando cadastrar ou logar, mas não há usuário
+            });
     },
-})
+});
+
 export const { resetMessage } = userSlice.actions//função de resetar mensagem
 export default userSlice.reducer//reducer
