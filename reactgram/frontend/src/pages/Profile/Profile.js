@@ -23,13 +23,19 @@ const Profile = () => {
   const { user, loading } = useSelector((state) => state.user)//usuário que outra pessoa entrou no perfil
   const { user: userAuth } = useSelector((state) => state.auth)//usuário autenticado
 
-  //photo
+  // new form and edit form refs - novo formulário e editar refs de formulário
+  const newPhotoForm = useRef()
+  const editPhotoForm = useRef()
 
   //load user data - carregar dados do usuário
   useEffect(() => {
 
     dispatch(getUserDetails(id))//detalhes e id do usuário
   }, [dispatch, id])
+
+  const submitHandle = (e) => {
+    e.preventDefault()
+  }
 
   if (loading) {
     return <p>Carregando...</p>
@@ -46,6 +52,23 @@ const Profile = () => {
           <p>{user.bio}</p>
         </div>
       </div>
+      {id === userAuth._id && (
+        <>
+          <div className="new-photo" ref={newPhotoForm}>
+            <h3>Compartilhe algum momento seu:</h3>
+            <form onSubmit={submitHandle}>
+              <label>
+                <span>Título para a foto</span>
+                <input type="text" placeholder="Insira um título" />
+              </label><label>
+                <span>Imagem: </span>
+                <input type="file" />
+              </label>
+              <input type="submit" value="Postar" />
+            </form>
+          </div>
+        </>
+      )}
     </div>
   )
 }
