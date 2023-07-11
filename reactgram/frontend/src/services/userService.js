@@ -3,7 +3,7 @@ import { api, requestConfig } from "../utils/config";
 
 //get user details - obter detalhes do usuário
 //obtém perfil do usuário logado para tela de edição
-const profile = async(data, token) => {
+const profile = async (data, token) => {
     const config = requestConfig("GET", data, token);//config da requisição passando a função requestConfig recebendo método get e os dados e o token
 
     try {
@@ -17,8 +17,20 @@ const profile = async(data, token) => {
     }
 };
 
+//get user details - obter detalhes do usuário
+const getUserDetails = async (id) => {//
+    const config = requestConfig("GET")
+    try {
+        const res = await fetch(api + "/users/: id, config")
+            .then((res) => res.json())
+            .catch((err) => err)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 //Update user details - Atualizar detalhes do usuário
-const updateProfile = async(data, token) => {//token-permite a autenticação/data-preciso de dados para atualização do usuário
+const updateProfile = async (data, token) => {//token-permite a autenticação/data-preciso de dados para atualização do usuário
 
     const config = requestConfig("PUT", data, token, true);//config requisição//put: atualização completa de um registro//true: req. pode conter imagens
 
@@ -36,6 +48,7 @@ const updateProfile = async(data, token) => {//token-permite a autenticação/da
 const userService = {
     profile,
     updateProfile,
+    getUserDetails
 }
 
 export default userService
