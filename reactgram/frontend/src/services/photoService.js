@@ -16,7 +16,25 @@ const publishPhoto = async (data, token) => {//token - função é restrita para
         console.log(error)
     }
 }
-const photoService = {
-    publishPhoto,
+
+//get user photos - obter fotos do usuário
+const getUserPhotos = async (id) => {//id do usuário, pois a foto vai ser pega de um user específico
+
+    const config = requestConfig("GET")//uma url precisa ser atingida com isso
+
+    try {
+
+        const res = await fetch(api + "/photos/user/" + id, config)
+            .then((res) => res.json())
+            .catch((err) => err)
+    } catch (error) {
+        console.log(error)
+    }
 }
+
+const photoService = {//exportando funções
+    publishPhoto,
+    getUserPhotos,
+}
+
 export default photoService//para futuramente acessar funções do objeto
