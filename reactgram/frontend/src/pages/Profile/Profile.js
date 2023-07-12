@@ -45,11 +45,13 @@ const Profile = () => {
     setImage(image);
   }
 
-  const resetComponentMessage = () => {
+  // Reset component message
+  function resetComponentMessage() {
     setTimeout(() => {
       dispatch(resetMessage());
     }, 2000);
   }
+
 
   const submitHandle = (e) => {
     e.preventDefault()//previnindo evento de envio de formulário
@@ -76,11 +78,11 @@ const Profile = () => {
 
   //delete a photo - exclusão de uma foto
   const handleDelete = (id) => {
-    dispatch(deletePhoto(id))
+    dispatch(deletePhoto(id));
 
-    resetComponentMessage()
-  }
-
+    resetComponentMessage();
+  };
+  
   if (loading) {
     return <p>Carregando...</p>
   }

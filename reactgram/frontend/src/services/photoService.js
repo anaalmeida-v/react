@@ -35,13 +35,28 @@ const getUserPhotos = async (id, token) => {//id do usuário, pois a foto vai se
 
 //delete a photo - excluir uma foto
 const deletePhoto = async (id, token) => {//id e token: identificação do usuário
-
-    const config = requestConfig("DELETE", null, token)
+    const config = requestConfig("DELETE", "", token);
 
     try {
-        const res = await fetch(api + '/photos/' + id, config)
+        const res = await fetch(api + "/photos/" + id, config)
             .then((res) => res.json())
-            .then((err) => err)
+            .catch((err) => err);
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+//update a photo - atualizar uma foto
+const updatePhoto = async (data, id, token) => {//dados, id e token por ser uma função privada 
+    const config = ("PUT", data, token)//put-atualização de dados, data e token para configurar o request
+
+    try {
+
+        const res = await fetch(api + "/photos/" + id, config)
+            .then((res) => res.json())
+            .catch((err) => err)
 
         return res
     } catch (error) {
@@ -53,6 +68,7 @@ const photoService = {//exportando funções
     publishPhoto,
     getUserPhotos,
     deletePhoto,
+    updatePhoto,
 }
 
 export default photoService//para futuramente acessar funções do objeto
