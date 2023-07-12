@@ -40,7 +40,6 @@ const Profile = () => {
   }, [dispatch, id])
 
   const handleFile = (e) => {//setar valores de imagem
-    //image preview
     const image = e.target.files[0];
 
     setImage(image);
@@ -55,16 +54,16 @@ const Profile = () => {
     }//dados da foto
 
     //build form data - construir dados de formulário
-    const formData = new FormData()
+    const formData = new FormData();
 
     const photoFormData = Object.keys(photoData).forEach((key) => formData.append(key, photoData[key]))//Object.keys()-loop em todas as chaves do objeto
     //.forEach - executa uma função fornecida uma vez para cada elemento do array/.append - coloca novo valor no final dos valores existente.
 
-    formData.append("photo", photoFormData)
+    formData.append("photo", photoFormData);
 
-    dispatch(publishPhoto(formData))
+    dispatch(publishPhoto(formData));
 
-    setTitle("")
+    setTitle("");
 
     setTimeout(() => {
       dispatch(resetMessage());
@@ -92,8 +91,8 @@ const Profile = () => {
             <h3>Compartilhe algum momento seu:</h3>
             <form onSubmit={submitHandle}>
               <label>
-                <span>Título para a foto</span>
-                <input type="text" placeholder="Insira um título" onChange={(e) => setTitle(e.target.value)} value={title || ""} />
+                <span>Título para a foto:</span>
+                <input type="text" placeholder="Insira um título" onChange={(e) => setTitle(e.target.value)} value={title} />
               </label>
               <label>
                 <span>Imagem: </span>
@@ -103,26 +102,33 @@ const Profile = () => {
               {loadingPhoto && <input type="submit" disabled value="Aguarde..." />}
             </form>
           </div>
-          {errorPhoto && <Message msg={errorPhoto} type={"error"} />}
-          {messagePhoto && <Message msg={messagePhoto} type={"success"} />}
+          {errorPhoto && <Message msg={errorPhoto} type="error" />}
+          {messagePhoto && <Message msg={messagePhoto} type="success" />}
         </>
       )}
       <div className="user-photos">
         <h2>Fotos publicadas:</h2>
         <div className="photos-container">
-          {photos && photos.map((photo) => (//se fotos existirem, são mapeadas e cada uma é nomeada como "photo"
+          {photos && photos.map((photo) => (
             <div className="photo" key={photo._id}>
-              {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.titl} />)}{/* verificando se photo chegou, se sim, exibe imagem*/}
+              {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} />)}
               {id === userAuth._id ? (
-                <p>actions</p>
+                <div className="actions">
+                  <Link to={`/photos/${photo._id}`}>
+                    <BsFillEyeFill />
+                  </Link>
+                  <BsPencilFill/>
+                  <BsXLg />
+                </div>
               ) : (<Link className="btn" to={`/photos/${photo._id}`}>Ver</Link>)}
             </div>
           ))}
-          {photos.length === 0 && <p>Ainda não há fotos publicadas</p>}
+          {photos.length === 0 && <p>Ainda não há fotos publicadas...</p>}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
+
 
 export default Profile

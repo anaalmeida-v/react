@@ -11,7 +11,7 @@ const initialState = {//estado inicial de fotos
 }
 
 //publish user photo - publicar foto do usuário
-export const publishPhoto = createAsyncThunk("photo/publish", async (photo, thunkAPI) => {
+export const publishPhoto = createAsyncThunk("photo/publish", async(photo, thunkAPI) => {
     const token = thunkAPI.getState().auth.user.token//obter token
     const data = await photoService.publishPhoto(photo, token)//foto e autenticação do usuário
 
@@ -24,12 +24,10 @@ export const publishPhoto = createAsyncThunk("photo/publish", async (photo, thun
 })
 
 //get user photos - obter fotos do usuário
-export const getUserPhotos = createAsyncThunk("photo/userphotos", async (id, thunkAPI) => {//nome + ID e thunkAPI
+export const getUserPhotos = createAsyncThunk("photo/userphotos", async(id, thunkAPI) => {//nome + ID e thunkAPI
 
     const token = thunkAPI.getState().auth.user.token//user validation for being a private method
-
     const data = await photoService.getUserPhotos(id, token)
-
     return data//retorna dados 
 })
 

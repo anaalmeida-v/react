@@ -1,7 +1,7 @@
 import { api, requestConfig } from '../utils/config'
 
 //publish an user photo - publicar uma foto de usuário
-const publishPhoto = async (data, token) => {//token - função é restrita para quem está logado, por isso a necessidade
+const publishPhoto = async(data, token) => {//token - função é restrita para quem está logado, por isso a necessidade
 
     const config = requestConfig("POST", data, token, true)//true(há imagem envolvida)
 
@@ -18,7 +18,7 @@ const publishPhoto = async (data, token) => {//token - função é restrita para
 }
 
 //get user photos - obter fotos do usuário
-const getUserPhotos = async (id, token) => {//id do usuário, pois a foto vai ser pega de um user específico
+const getUserPhotos = async(id, token) => {//id do usuário, pois a foto vai ser pega de um user específico
 
     const config = requestConfig("GET", null, token)//uma url precisa ser atingida com isso
 
@@ -27,7 +27,9 @@ const getUserPhotos = async (id, token) => {//id do usuário, pois a foto vai se
         const res = await fetch(api + "/photos/user/" + id, config)
             .then((res) => res.json())
             .catch((err) => err)
-    } catch (error) {
+        
+        return res
+        } catch (error) {
         console.log(error)
     }
 }
