@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom"
 
 // Redux
 import { getUserDetails } from "../../slices/userSlice"
-import { publishPhoto, resetMessage, getUserPhotos } from '../../slices/photoSlice'
+import { publishPhoto, resetMessage, getUserPhotos, deletePhoto } from '../../slices/photoSlice'
 
 const Profile = () => {
   const { id } = useParams()//id da url de quando um usuário entra no perfil de outro
@@ -45,6 +45,12 @@ const Profile = () => {
     setImage(image);
   }
 
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  }
+
   const submitHandle = (e) => {
     e.preventDefault()//previnindo evento de envio de formulário
 
@@ -65,9 +71,14 @@ const Profile = () => {
 
     setTitle("");
 
-    setTimeout(() => {
-      dispatch(resetMessage());
-    }, 2000);
+    resetComponentMessage()
+  }
+
+  //delete a photo - exclusão de uma foto
+  const handleDelete = (id) => {
+    dispatch(deletePhoto(id))
+
+    resetComponentMessage()
   }
 
   if (loading) {
@@ -117,8 +128,8 @@ const Profile = () => {
                   <Link to={`/photos/${photo._id}`}>
                     <BsFillEyeFill />
                   </Link>
-                  <BsPencilFill/>
-                  <BsXLg />
+                  <BsPencilFill />
+                  <BsXLg onClick={() => handleDelete(photo._id)} />{/* se n tivesse sido usada a arrow function, seria executado assim que aparecesse na tela*/}
                 </div>
               ) : (<Link className="btn" to={`/photos/${photo._id}`}>Ver</Link>)}
             </div>
@@ -129,6 +140,5 @@ const Profile = () => {
     </div>
   );
 };
-
 
 export default Profile
