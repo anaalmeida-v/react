@@ -34,7 +34,7 @@ const Profile = () => {
   }, [dispatch, id])
 
   const submitHandle = (e) => {
-    e.preventDefault()
+    e.preventDefault()//previnindo evento de envio de formulário
   }
 
   if (loading) {
@@ -52,15 +52,16 @@ const Profile = () => {
           <p>{user.bio}</p>
         </div>
       </div>
-      {id === userAuth._id && (
-        <>
+      {id === userAuth._id && (//verificando se id da url é igual ao do id do usuário autenticado
+        <>{/* se for, aparecerá um form para usuário fazer uma nova postagem */}
           <div className="new-photo" ref={newPhotoForm}>
             <h3>Compartilhe algum momento seu:</h3>
             <form onSubmit={submitHandle}>
               <label>
                 <span>Título para a foto</span>
                 <input type="text" placeholder="Insira um título" />
-              </label><label>
+              </label>
+              <label>
                 <span>Imagem: </span>
                 <input type="file" />
               </label>

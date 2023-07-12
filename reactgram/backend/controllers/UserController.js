@@ -96,7 +96,7 @@ const update = async (req, res) => {
 
   const reqUser = req.user//usuário da req
 
-  const user = await User.findById(mongoose.Types.ObjectId(reqUser._id)).select("-password")//passando string da req para tipo de object id, tirando password que não é necessário
+  const user = await User.findById(reqUser._id).select("-password")//passando string da req para tipo de object id, tirando password que não é necessário
   //esse id é vindo do token
   if (name) {
     user.name = name
