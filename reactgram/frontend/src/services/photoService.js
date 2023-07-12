@@ -18,9 +18,9 @@ const publishPhoto = async (data, token) => {//token - função é restrita para
 }
 
 //get user photos - obter fotos do usuário
-const getUserPhotos = async (id) => {//id do usuário, pois a foto vai ser pega de um user específico
+const getUserPhotos = async (id, token) => {//id do usuário, pois a foto vai ser pega de um user específico
 
-    const config = requestConfig("GET")//uma url precisa ser atingida com isso
+    const config = requestConfig("GET", null, token)//uma url precisa ser atingida com isso
 
     try {
 

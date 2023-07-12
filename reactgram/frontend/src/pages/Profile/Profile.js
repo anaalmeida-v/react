@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom"
 
 // Redux
 import { getUserDetails } from "../../slices/userSlice"
-import { publishPhoto, resetMessage } from '../../slices/photoSlice'
+import { publishPhoto, resetMessage, getUserPhotos } from '../../slices/photoSlice'
 
 const Profile = () => {
   const { id } = useParams()//id da url de quando um usuário entra no perfil de outro
@@ -35,8 +35,8 @@ const Profile = () => {
 
   //load user data - carregar dados do usuário
   useEffect(() => {
-
     dispatch(getUserDetails(id))//detalhes e id do usuário
+    dispatch(getUserPhotos(id))
   }, [dispatch, id])
 
   const handleFile = (e) => {//setar valores de imagem
@@ -107,6 +107,20 @@ const Profile = () => {
           {messagePhoto && <Message msg={messagePhoto} type={"success"} />}
         </>
       )}
+      <div className="user-photos">
+        <h2>Fotos publicadas:</h2>
+        <div className="photos-container">
+          {photos && photos.map((photo) => (//se fotos existirem, são mapeadas e cada uma é nomeada como "photo"
+            <div className="photo" key={photo._id}>
+              {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.titl} />)}{/* verificando se photo chegou, se sim, exibe imagem*/}
+              {id === userAuth._id ? (
+                <p>actions</p>
+              ) : (<Link className="btn" to={`/photos/${photo._id}`}>Ver</Link>)}
+            </div>
+          ))}
+          {photos.length === 0 && <p>Ainda não há fotos publicadas</p>}
+        </div>
+      </div>
     </div>
   )
 }
