@@ -72,7 +72,22 @@ const getPhoto = async (id, token) => {
     } catch (error) {
         console.log(error);
     }
-};
+}
+
+//like a photo
+const like = async (id, token) => {//id identifica user e token é para autenticação pois esta é uma função privada
+
+    const config = requestConfig("PUT", null, token)
+
+    try {
+        const res = await fetch(api + "/photos/like/" + id, config)
+            .then((res) => res.json())
+            .catch((err) => err)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 const photoService = {//exportando funções
     publishPhoto,
@@ -80,6 +95,7 @@ const photoService = {//exportando funções
     getPhoto,
     deletePhoto,
     updatePhoto,
+    like,
 }
 
 export default photoService//para futuramente acessar funções do objeto
