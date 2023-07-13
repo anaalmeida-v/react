@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom"
 
 // Redux
 import { getUserDetails } from "../../slices/userSlice"
-import { publishPhoto, resetMessage, getUserPhotos, deletePhoto } from '../../slices/photoSlice'
+import { publishPhoto, resetMessage, getUserPhotos, deletePhoto, updatePhoto } from '../../slices/photoSlice'
 
 const Profile = () => {
   const { id } = useParams()//id da url de quando um usuário entra no perfil de outro
@@ -26,8 +26,14 @@ const Profile = () => {
   const { photos, loading: loadingPhoto, message: messagePhoto, error: errorPhoto } = useSelector((state) => state.photo)//seleciona estados da photo
   //renomeando porque funções já existem
 
+  //states de inclusão
   const [title, setTitle] = useState("")
   const [image, setImage] = useState("")
+
+  //states de edição
+  const [editId, setEditId] = useState("")
+  const [editImage, setEditImage] = useState("")
+  const [editTitle, setEditTitle] = useState("")
 
   // new form and edit form refs - novo formulário e editar refs de formulário
   const newPhotoForm = useRef()
@@ -82,7 +88,42 @@ const Profile = () => {
 
     resetComponentMessage();
   };
-  
+
+  //show or hide forms - mostrar ou ocultar formulários
+  const hideOrShowForms = () => {
+    newPhotoForm.current.classList.toggle("hide")//se estiver sendo exibido hide será adicionado, caso o contrário hide sai e esconde form
+    editPhotoForm.current.classList.toggle("hide")
+  }
+
+  //update a photo - atualizar uma foto
+  const handleUpdate = (e) => {
+    e.preventDefault()
+
+    const photoData = {
+      title: editTitle,
+      id: editId
+    }//dados da foto para fazer atualização
+    dispatch(updatePhoto(photoData))
+
+    resetComponentMessage()
+  }
+
+  //open edit form - abrir edição de formulário
+  const handleEdit = (photo) => {
+    if (editPhotoForm.current.classList.contains("hide")) {//verificando se editPhotoForm está com a class hide ou não
+      hideOrShowForms()
+    }
+
+    setEditId(photo._id)
+    setEditTitle(photo.title)
+    setEditImage(photo.image)
+    //preenchendo form com as informações da imagem
+  }
+
+  const handleCancelEdit = (e) => {
+    hideOrShowForms()
+  }
+
   if (loading) {
     return <p>Carregando...</p>
   }
@@ -115,6 +156,17 @@ const Profile = () => {
               {loadingPhoto && <input type="submit" disabled value="Aguarde..." />}
             </form>
           </div>
+          <div className="edit-photo hide" ref={editPhotoForm}>{/*hide pois começa escondida, só será exibida quando usuário clicar que quer editar uma foto*/}
+            <p>Editando:</p>
+            {editImage && (//checando se editImage está presente
+              <img src={`${uploads}/photos/${editImage}`} alt={editTitle} />
+            )}
+            <form onSubmit={handleUpdate}>
+              <input type="text" placeholder="Insira o novo título" onChange={(e) => setEditTitle(e.target.value)} value={editTitle} />
+              <input type="submit" value="Atualizar" />
+              <button className="cancel-btn" onClick={handleCancelEdit}>Cancelar edição</button>
+            </form>
+          </div>
           {errorPhoto && <Message msg={errorPhoto} type="error" />}
           {messagePhoto && <Message msg={messagePhoto} type="success" />}
         </>
@@ -130,7 +182,7 @@ const Profile = () => {
                   <Link to={`/photos/${photo._id}`}>
                     <BsFillEyeFill />
                   </Link>
-                  <BsPencilFill />
+                  <BsPencilFill onClick={() => handleEdit(photo)} />
                   <BsXLg onClick={() => handleDelete(photo._id)} />{/* se n tivesse sido usada a arrow function, seria executado assim que aparecesse na tela*/}
                 </div>
               ) : (<Link className="btn" to={`/photos/${photo._id}`}>Ver</Link>)}

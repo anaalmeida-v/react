@@ -50,7 +50,7 @@ const deletePhoto = async (id, token) => {//id e token: identificação do usuá
 
 //update a photo - atualizar uma foto
 const updatePhoto = async (data, id, token) => {//dados, id e token por ser uma função privada 
-    const config = ("PUT", data, token)//put-atualização de dados, data e token para configurar o request
+    const config = requestConfig("PUT", data, token)//put-atualização de dados, data e token para configurar o request
 
     try {
 

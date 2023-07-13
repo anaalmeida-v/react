@@ -48,7 +48,7 @@ export const deletePhoto = createAsyncThunk("photo/delete", async (id, thunkAPI)
 export const updatePhoto = createAsyncThunk("photo/update", async (photoData, thunkAPI) => {
 
     const token = thunkAPI.getState().auth.user.token//user validation for being a private method
-    const data = await photoService.updatePhoto({ title: photoData.title }, photoData.id, token)
+    const data = await photoService.updatePhoto({ title: photoData.title }, photoData.id, token)//atualizando dados de acordo com os dados da foto
 
     //check for erros - verificar se há erros
     if (data.errors) {
@@ -120,9 +120,9 @@ export const photoSlice = createSlice({
                 state.success = true;
                 state.error = null;
                 state.photos.map((photo) => {
-                    if (photo._id !== action.payload.photo._id) {
-                        return photo.title = action.payload.photo.title
-                    }
+                    if (photo._id === action.payload.photo._id) {//verificando id da foto
+                        return (photo.title = action.payload.photo.title)
+                    }//atualizando foto com oq há no frontend para não ser necessário fazer uma nova requisição
                     return photo
                 })
                 state.message = action.payload.message
