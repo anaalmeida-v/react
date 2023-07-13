@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import photoService from '../services/photoService'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import photoService from "../services/photoService";
 
 const initialState = {//estado inicial de fotos
     photos: [],
@@ -7,8 +7,8 @@ const initialState = {//estado inicial de fotos
     error: false,
     success: false,
     loading: false,
-    message: null
-}
+    message: null,
+};
 
 //publish user photo - publicar foto do usuário
 export const publishPhoto = createAsyncThunk("photo/publish", async (photo, thunkAPI) => {
@@ -26,8 +26,8 @@ export const publishPhoto = createAsyncThunk("photo/publish", async (photo, thun
 //get user photos - obter fotos do usuário
 export const getUserPhotos = createAsyncThunk("photo/userphotos", async (id, thunkAPI) => {//nome + ID e thunkAPI
 
-    const token = thunkAPI.getState().auth.user.token//user validation for being a private method
-    const data = await photoService.getUserPhotos(id, token)
+    const token = thunkAPI.getState().auth.user.token;//user validation for being a private method
+    const data = await photoService.getUserPhotos(id, token);
     return data//retorna dados 
 })
 
@@ -59,8 +59,10 @@ export const updatePhoto = createAsyncThunk("photo/update", async (photoData, th
 })
 
 //get photo by id - obter foto por id
-export const getPhoto = createAsyncThunk("photo/getphoto", async (id) => {
-    const data = await photoService.getPhoto(id)
+export const getPhoto = createAsyncThunk("photo/getphoto", async (id, thunkAPI) => {
+
+    const token = thunkAPI.getState().auth.user.token//user validation for being a private method
+    const data = await photoService.getPhoto(id, token)
 
     return data
 })
@@ -118,26 +120,28 @@ export const photoSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
                 state.photo = {};
-            }).addCase(updatePhoto.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
+            }).addCase(updatePhoto.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(updatePhoto.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+            .addCase(updatePhoto.fulfilled, (state, action) => {
                 state.loading = false;
                 state.success = true;
                 state.error = null;
+
                 state.photos.map((photo) => {
-                    if (photo._id === action.payload.photo._id) {//verificando id da foto
-                        return (photo.title = action.payload.photo.title)
-                    }//atualizando foto com oq há no frontend para não ser necessário fazer uma nova requisição
-                    return photo
-                })
-                state.message = action.payload.message
+                    if (photo._id === action.payload.photo._id) {
+                        return (photo.title = action.payload.photo.title);
+                    }
+                    return photo;
+                });
+
+                state.message = action.payload.message;
             })
             .addCase(updatePhoto.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-                state.photo = {};
+                state.photo = null;
             }).addCase(getPhoto.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
                 state.loading = true;
                 state.error = false;
@@ -146,10 +150,9 @@ export const photoSlice = createSlice({
                 state.loading = false;
                 state.success = true;
                 state.error = null;
-                state.photos = action.payload;
+                state.photo = action.payload;
             })
     }
 })
-
-export const { resetMessage } = photoSlice.actions
-export default photoSlice.reducer
+export const { resetMessage } = photoSlice.actions;
+export default photoSlice.reducer;

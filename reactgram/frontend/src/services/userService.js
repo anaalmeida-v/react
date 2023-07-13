@@ -34,15 +34,17 @@ const updateProfile = async (data, token) => {//token-permite a autenticação/d
 };
 
 //get user details - obter detalhes do usuário
-const getUserDetails = async(id) => {//os detalhes são obtidos a partir do id
-    const config = requestConfig("GET")//config da requisicao
+const getUserDetails = async (id) => {//os detalhes são obtidos a partir do id
+    const config = requestConfig("GET");//config da requisicao
+
     try {
         const res = await fetch(api + "/users/" + id, config)
             .then((res) => res.json())//transforma em obj js
-            .catch((err) => err)//retorna possível erro
-        return res
+            .catch((err) => err);//retorna possível erro
+
+        return res;
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
 

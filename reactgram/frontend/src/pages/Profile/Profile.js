@@ -115,15 +115,14 @@ const Profile = () => {
     }
 
     setEditId(photo._id)
-    setEditTitle(photo.title)
     setEditImage(photo.image)
+    setEditTitle(photo.title)
     //preenchendo form com as informações da imagem
   }
 
-  const handleCancelEdit = (e) => {
+  const handleCancelEdit = () => {
     hideOrShowForms()
   }
-
   if (loading) {
     return <p>Carregando...</p>
   }
@@ -174,20 +173,30 @@ const Profile = () => {
       <div className="user-photos">
         <h2>Fotos publicadas:</h2>
         <div className="photos-container">
-          {photos && photos.map((photo) => (
-            <div className="photo" key={photo._id}>
-              {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} />)}
-              {id === userAuth._id ? (
-                <div className="actions">
-                  <Link to={`/photos/${photo._id}`}>
-                    <BsFillEyeFill />
+          {photos &&
+            photos.map((photo) => (
+              <div className="photo" key={photo._id}>
+                {photo.image && (
+                  <img
+                    src={`${uploads}/photos/${photo.image}`}
+                    alt={photo.title}
+                  />
+                )}
+                {id === userAuth._id ? (
+                  <div className="actions">
+                    <Link to={`/photos/${photo._id}`}>
+                      <BsFillEyeFill />
+                    </Link>
+                    <BsPencilFill onClick={() => handleEdit(photo)} />
+                    <BsXLg onClick={() => handleDelete(photo._id)} />{/* se n tivesse sido usada a arrow function, seria executado assim que aparecesse na tela*/}
+                  </div>
+                ) : (
+                  <Link className="btn" to={`/photos/${photo._id}`}>
+                    Ver
                   </Link>
-                  <BsPencilFill onClick={() => handleEdit(photo)} />
-                  <BsXLg onClick={() => handleDelete(photo._id)} />{/* se n tivesse sido usada a arrow function, seria executado assim que aparecesse na tela*/}
-                </div>
-              ) : (<Link className="btn" to={`/photos/${photo._id}`}>Ver</Link>)}
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
           {photos.length === 0 && <p>Ainda não há fotos publicadas...</p>}
         </div>
       </div>

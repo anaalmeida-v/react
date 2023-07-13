@@ -26,7 +26,7 @@ function App() {
     return <p>Carregando...</p>;
   }
 
-  return (
+  return (  
     <div className="App">
       <BrowserRouter>
         <Navbar />
