@@ -64,11 +64,28 @@ const updatePhoto = async (data, id, token) => {//dados, id e token por ser uma 
     }
 }
 
+//get a photo by id - obter foto por id
+const getPhoto = async (id) => {
+    const config = requestConfig("GET",)//configuração da requisição
+
+    try {
+
+        const res = await fetch(api + "/photos/" + id, config)//id vem pela url
+            .then((res) => res.json())
+            .catch((err) => err)
+
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const photoService = {//exportando funções
     publishPhoto,
     getUserPhotos,
     deletePhoto,
     updatePhoto,
+    getPhoto
 }
 
 export default photoService//para futuramente acessar funções do objeto
