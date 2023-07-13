@@ -5,6 +5,7 @@ import { uploads } from '../../utils/config'//onde contém as imagens
 //components
 import Message from '../../components/Message'
 import PhotoItem from '../../components/PhotoItem'
+import LikeContainer from '../../components/LikeContainer'
 import { Link } from 'react-router-dom'
 
 //hooks
@@ -13,7 +14,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 //redux
-import { getPhoto } from '../../slices/photoSlice'
+import { getPhoto, like } from '../../slices/photoSlice'
 
 const Photo = () => {
     const { id } = useParams()
@@ -30,7 +31,10 @@ const Photo = () => {
         dispatch(getPhoto(id))
     }, [dispatch, id])//entrando na página a foto já estará sendo carregada 
 
-    //like and comment
+    const handleLike = () => {
+        dispatch(like(photo._id))
+    }
+
     if (loading) {
         return <p>Carregando...</p>
     }
@@ -38,6 +42,7 @@ const Photo = () => {
     return (
         <div id='photo'>
             <PhotoItem photo={photo} />
+            <LikeContainer photo={photo} user={user} handleLike={handleLike} />
         </div>
     )
 }

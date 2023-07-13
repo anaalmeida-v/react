@@ -144,9 +144,9 @@ export const photoSlice = createSlice({
                 state.error = null;
 
                 state.photos.map((photo) => {
-                    if (photo._id === action.payload.photo._id) {
-                        return (photo.title = action.payload.photo.title);
-                    }
+                    if (photo._id === action.payload.photo._id) {//verificando se photo._id(representa cada uma das fotos do state que preenche quando aplica o get) realmente vem do backend
+                        return photo.title = action.payload.photo.title
+                    }//atualizar foto que está no frontend para não ser necessário fazer uma nova só para atualizar dados(é feita essa atualização já com os dados do backend)
                     return photo;
                 });
 
@@ -175,9 +175,9 @@ export const photoSlice = createSlice({
                     state.photo.likes.push(action.payload.userId)//preenche coração
                 }
 
-                //caso esteja na home por exemplo
+                //caso esteja no feed da home por exemplo
                 state.photos.map((photo) => {
-                    if (photo._id === action.payload.photoId) {
+                    if (photo._id === action.payload.photoId) {//verificando se photo._id(representa cada uma das fotos do state que preenche quando aplica o get) realmente vem do backend
                         return photo.likes.push(action.payload.userId)//ação de like
                     }
                     return photo;
