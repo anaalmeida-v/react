@@ -17,6 +17,8 @@ const Navbar = () => {
   const { auth } = useAuth()
   const { user } = useSelector((state) => state.auth)//pegando usuário state da autenticação
 
+  const [query, setQuery] = useState("")
+
   const navigate = useNavigate()
 
   const dispatch = useDispatch()//enviar ou despachar uma ação para um "reducer" em uma arquitetura Flux ou Redux
@@ -29,9 +31,17 @@ const Navbar = () => {
     navigate("/login")//como o usuário será desconectado ele é redirecionado para login
   }
 
+  const handleSearch = (e) => {
+    e.preventDefault()
+
+    if(query){
+      return navigate(`/search?q=${query}`)//processo de navegação quando algo é enviado uti.lizando barra de pesquisa
+    }
+  }
+
   return <nav id="nav">
     <Link to="/">ReactGram</Link>
-    <form id="search-form"><BsSearch /><input type='text' placeholder='Pesquisar' /></form>
+    <form id="search-form" onSubmit={handleSearch}><BsSearch /><input type='text' placeholder='Pesquisar' onChange={(e) => setQuery(e.target.value)} /></form>
     <ul id='nav-links'>
       {auth ? (//se usuário tiver autenticado exibe um navlink com o ícone de home
         <>
