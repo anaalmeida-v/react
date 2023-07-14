@@ -111,7 +111,7 @@ const photoService = {//exportando funções
     deletePhoto,
     updatePhoto,
     like,
-    comment
+    comment,
 }
 
 export default photoService//para futuramente acessar funções do objeto
