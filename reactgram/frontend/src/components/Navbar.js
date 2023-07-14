@@ -30,18 +30,16 @@ const Navbar = () => {
   }
 
   return <nav id="nav">
-    <Link to="/">
-      ReactGram
-    </Link>
+    <Link to="/">ReactGram</Link>
     <form id="search-form"><BsSearch /><input type='text' placeholder='Pesquisar' /></form>
     <ul id='nav-links'>
       {auth ? (//se usuário tiver autenticado exibe um navlink com o ícone de home
         <>
           <li><NavLink to="/"><BsHouseDoorFill /></NavLink></li>
           {user && (//se usuário estiver logado exibe um navlink com um icone que encaminha para url /users/id-user
-            <li><NavLink to={`/users/${user._id}`} /><BsFillCameraFill /></li>//página do usuário
+            <li><NavLink to={`/users/${user._id}`}><BsFillCameraFill /></NavLink></li>//página do usuário
           )}
-          <li><NavLink to="/profile" /><BsFillPersonFill /></li>{/* perfil usuário logado */}
+          <li><NavLink to="/profile"><BsFillPersonFill /></NavLink></li>{/* perfil usuário logado */}
           <li><span onClick={handleLogout}>Sair</span></li>
         </>
       ) : (

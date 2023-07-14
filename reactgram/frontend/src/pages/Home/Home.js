@@ -36,8 +36,7 @@ const Home = () => {
         <p>Carregando...    </p>
     }
 
-    return (
-        <div id="home">
+    return <div id="home">
             {photos && photos.map((photo) => (//se fotos existem é executado um .map nomeando cada foto individualmente como 'photo'
                 <div key={photo._id}>{/* id da photo */}
                     <PhotoItem photo={photo} />
@@ -51,7 +50,6 @@ const Home = () => {
                 </h2>
             )}
         </div>
-    )
 }
 
 export default Home 
