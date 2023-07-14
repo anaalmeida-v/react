@@ -144,15 +144,11 @@ const Profile = () => {
             <h3>Compartilhe algum momento seu:</h3>
             <form onSubmit={submitHandle}>
               <label>
-                <span>Título para a foto:</span>
-                <input type="text" placeholder="Insira um título" onChange={(e) => setTitle(e.target.value)} value={title} />
+                <span>Título para a foto:</span><input type="text" placeholder="Insira um título" onChange={(e) => setTitle(e.target.value)} value={title || ""} />
               </label>
-              <label>
-                <span>Imagem: </span>
-                <input type="file" onChange={handleFile} />
-              </label>
+              <label><span>Imagem:</span><input type="file" onChange={handleFile} /></label>
               {!loadingPhoto && <input type="submit" value="Postar" />}
-              {loadingPhoto && <input type="submit" disabled value="Aguarde..." />}
+              {loadingPhoto && (<input type="submit" disabled value="Aguarde..." />)}
             </form>
           </div>
           <div className="edit-photo hide" ref={editPhotoForm}>{/*hide pois começa escondida, só será exibida quando usuário clicar que quer editar uma foto*/}
@@ -173,30 +169,22 @@ const Profile = () => {
       <div className="user-photos">
         <h2>Fotos publicadas:</h2>
         <div className="photos-container">
-          {photos &&
-            photos.map((photo) => (
-              <div className="photo" key={photo._id}>
-                {photo.image && (
-                  <img
-                    src={`${uploads}/photos/${photo.image}`}
-                    alt={photo.title}
-                  />
-                )}
-                {id === userAuth._id ? (
-                  <div className="actions">
-                    <Link to={`/photos/${photo._id}`}>
-                      <BsFillEyeFill />
-                    </Link>
-                    <BsPencilFill onClick={() => handleEdit(photo)} />
-                    <BsXLg onClick={() => handleDelete(photo._id)} />{/* se n tivesse sido usada a arrow function, seria executado assim que aparecesse na tela*/}
-                  </div>
-                ) : (
-                  <Link className="btn" to={`/photos/${photo._id}`}>
-                    Ver
-                  </Link>
-                )}
-              </div>
-            ))}
+          {photos && photos.map((photo) => (
+            <div className="photo" key={photo._id}>
+              {photo.image && (
+                <img src={`${uploads}/photos/${photo.image}`} alt={photo.title} />
+              )}
+              {id === userAuth._id ? (
+                <div className="actions">
+                  <Link to={`/photos/${photo._id}`}><BsFillEyeFill /></Link>
+                  <BsPencilFill onClick={() => handleEdit(photo)} />
+                  <BsXLg onClick={() => handleDelete(photo._id)} />{/* se n tivesse sido usada a arrow function, seria executado assim que aparecesse na tela*/}
+                </div>
+              ) : (
+                <Link className="btn" to={`/photos/${photo._id}`}>Ver</Link>
+              )}
+            </div>
+          ))}
           {photos.length === 0 && <p>Ainda não há fotos publicadas...</p>}
         </div>
       </div>
