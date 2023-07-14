@@ -94,9 +94,10 @@ export const comment = createAsyncThunk("photo/comment", async (commentData, thu
 })
 
 //get all photos - obter todas as fotos
-export const getPhotos = createAsyncThunk("photo/getall", async () => {
+export const getPhotos = createAsyncThunk("photo/getall", async (_, thunkAPI) => {//quando não há um 1° argumento, coloca-se o '_' e o react-redux entende que o argumento é despensável
 
-    const data = await photoService.getPhotos()
+    const token = thunkAPI.getState().auth.user.token//user validation for being a private method
+    const data = await photoService.getPhotos(token)
     return data
 })
 

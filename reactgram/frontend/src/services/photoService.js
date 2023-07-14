@@ -105,8 +105,8 @@ const comment = async (data, id, token) => {//dados do comentário, id da foto e
 }
 
 //get all photos - obter todas as fotos
-const getAllPhotos = async () => {
-    const config = requestConfig("GET")
+const getAllPhotos = async (token) => {
+    const config = requestConfig("GET", null, token)
     try {
 
         const res = await fetch(api + "/photos", config)
