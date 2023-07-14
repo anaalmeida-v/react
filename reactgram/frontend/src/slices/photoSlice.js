@@ -93,6 +93,13 @@ export const comment = createAsyncThunk("photo/comment", async (commentData, thu
     return data
 })
 
+//get all photos - obter todas as fotos
+export const getPhotos = createAsyncThunk("photo/getall", async () => {
+
+    const data = await photoService.getPhotos()
+    return data
+})
+
 export const photoSlice = createSlice({
     name: "publish",
     initialState,
@@ -203,15 +210,24 @@ export const photoSlice = createSlice({
                 state.loading = false;
                 state.success = true;
                 state.error = null;
-        
+
                 state.photo.comments.push(action.payload.comment);
-        
+
                 state.message = action.payload.message;
-              })
-              .addCase(comment.rejected, (state, action) => {
+            })
+            .addCase(comment.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-              })
+            }).addCase(getPhotos.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
+                state.loading = true;
+                state.error = false;
+            })
+            .addCase(getPhotos.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+                state.loading = false;
+                state.success = true;
+                state.error = null;
+                state.photos = action.payload;//é possível trafegar dados, não apenas mexer nos states exibição na tela
+            })
     }
 })
 export const { resetMessage } = photoSlice.actions;

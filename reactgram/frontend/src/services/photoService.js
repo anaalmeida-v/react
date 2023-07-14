@@ -90,7 +90,7 @@ const like = async (id, token) => {//id identifica user e token é para autentic
 }
 
 //add comment to a photo - adicionar comentário a foto
-const comment = async(data, id, token) => {//dados do comentário, id da foto e token para autenticação do usuário
+const comment = async (data, id, token) => {//dados do comentário, id da foto e token para autenticação do usuário
 
     const config = requestConfig("PUT", data, token)
 
@@ -98,6 +98,21 @@ const comment = async(data, id, token) => {//dados do comentário, id da foto e 
         const res = await fetch(api + "/photos/comment/" + id, config)
             .then((res) => res.json())
             .catch((err) => err)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+//get all photos - obter todas as fotos
+const getAllPhotos = async () => {
+    const config = requestConfig("GET")
+    try {
+
+        const res = await fetch(api + "/photos", config)
+            .then((res) => res.json())
+            .catch((err) => err)
+
         return res
     } catch (error) {
         console.log(error)
@@ -112,6 +127,7 @@ const photoService = {//exportando funções
     updatePhoto,
     like,
     comment,
+    getAllPhotos
 }
 
 export default photoService//para futuramente acessar funções do objeto
