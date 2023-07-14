@@ -110,11 +110,10 @@ export const photoSlice = createSlice({
         },
     },
     extraReducers: (builder) => {//parte das execuções que são feitas na api//builder-construtor: cria ações separadamente
-        builder
-            .addCase(publishPhoto.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
-                state.loading = true;
-                state.error = null;
-            })
+        builder.addCase(publishPhoto.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
+            state.loading = true;
+            state.error = null;
+        })
             .addCase(publishPhoto.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
                 state.loading = false;
                 state.success = true;
@@ -122,17 +121,14 @@ export const photoSlice = createSlice({
                 state.photo = action.payload;//é possível trafegar dados, não apenas mexer nos states exibição na tela
                 state.photos.unshift(state.photo);
                 state.message = "Foto publicada com sucesso!";
-            })
-            .addCase(publishPhoto.rejected, (state, action) => {
+            }).addCase(publishPhoto.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
                 state.photo = null;
-            })
-            .addCase(getUserPhotos.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
+            }).addCase(getUserPhotos.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
                 state.loading = true;
                 state.error = null;
-            })
-            .addCase(getUserPhotos.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+            }).addCase(getUserPhotos.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
                 state.loading = false;
                 state.success = true;
                 state.error = null;
@@ -140,8 +136,7 @@ export const photoSlice = createSlice({
             }).addCase(deletePhoto.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
                 state.loading = true;
                 state.error = null;
-            })
-            .addCase(deletePhoto.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+            }).addCase(deletePhoto.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
                 state.loading = false;
                 state.success = true;
                 state.error = null;
@@ -149,8 +144,7 @@ export const photoSlice = createSlice({
                     return photo._id !== action.payload.id
                 })
                 state.message = action.payload.message
-            })
-            .addCase(deletePhoto.rejected, (state, action) => {
+            }).addCase(deletePhoto.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
                 state.photo = {};
@@ -162,14 +156,12 @@ export const photoSlice = createSlice({
                 state.loading = false;
                 state.success = true;
                 state.error = null;
-
                 state.photos.map((photo) => {
                     if (photo._id === action.payload.photo._id) {//verificando se photo._id(representa cada uma das fotos do state que preenche quando aplica o get) realmente vem do backend
                         return photo.title = action.payload.photo.title
                     }//atualizar foto que está no frontend para não ser necessário fazer uma nova só para atualizar dados(é feita essa atualização já com os dados do backend)
                     return photo;
                 });
-
                 state.message = action.payload.message;
             })
             .addCase(updatePhoto.rejected, (state, action) => {
@@ -189,12 +181,10 @@ export const photoSlice = createSlice({
                 state.loading = false;
                 state.success = true;
                 state.error = null;
-
                 //foto individual
                 if (state.photo.likes) {//se houver um array de likes na foto
                     state.photo.likes.push(action.payload.userId)//preenche coração
                 }
-
                 //caso esteja no feed da home por exemplo
                 state.photos.map((photo) => {
                     if (photo._id === action.payload.photoId) {//verificando se photo._id(representa cada uma das fotos do state que preenche quando aplica o get) realmente vem do backend
@@ -203,8 +193,7 @@ export const photoSlice = createSlice({
                     return photo;
                 });
                 state.message = action.payload.message
-            })
-            .addCase(like.rejected, (state, action) => {
+            }).addCase(like.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             }).addCase(comment.fulfilled, (state, action) => {
@@ -222,8 +211,7 @@ export const photoSlice = createSlice({
             }).addCase(getPhotos.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
                 state.loading = true;
                 state.error = false;
-            })
-            .addCase(getPhotos.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+            }).addCase(getPhotos.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
                 state.loading = false;
                 state.success = true;
                 state.error = null;

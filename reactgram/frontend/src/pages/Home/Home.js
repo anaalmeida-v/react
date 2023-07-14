@@ -36,20 +36,20 @@ const Home = () => {
         <p>Carregando...    </p>
     }
 
-    return <div id="home">
-            {photos && photos.map((photo) => (//se fotos existem é executado um .map nomeando cada foto individualmente como 'photo'
-                <div key={photo._id}>{/* id da photo */}
-                    <PhotoItem photo={photo} />
-                    <LikeContainer photo={photo} user={user} handleLike={handleLike} />
-                    <Link className="btn" to={`/photos/${photo._id}`}>Ver mais</Link>
-                </div>
-            ))}
-            {photos && photos.length === 0 && (
-                <h2 className="no-photos">
-                    Ainda não há fotos publicadas, <Link to={`/users/${user._id}`}>clique aqui</Link> para começar{/*quando não houver fotos publicadas, usuário receberá um link para o seu perfil, para assim fazer a primeira postagem do sistema*/}
-                </h2>
-            )}
-        </div>
+    return (<div id="home">
+        {photos && photos.map((photo) => (//se fotos existem é executado um .map nomeando cada foto individualmente como 'photo'
+            <div key={photo._id}>{/* id da photo */}
+                <PhotoItem photo={photo} />
+                <LikeContainer photo={photo} user={user} handleLike={handleLike} />
+                <Link className="btn" to={`/photos/${photo._id}`}>Ver mais</Link>
+            </div>
+        ))}
+        {photos && photos.length === 0 && (
+            <h2 className="no-photos">
+                Ainda não há fotos publicadas, <Link to={`/users/${user._id}`}>clique aqui</Link> para começar{/*quando não houver fotos publicadas, usuário receberá um link para o seu perfil, para assim fazer a primeira postagem do sistema*/}
+            </h2>
+        )}
+    </div>)
 }
 
 export default Home 
