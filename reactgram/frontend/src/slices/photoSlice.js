@@ -101,6 +101,13 @@ export const getPhotos = createAsyncThunk("photo/getall", async (_, thunkAPI) =>
     return data
 })
 
+//search photo by title - pesquisa da foto pelo título
+export const searchPhotos = createAsyncThunk("photo/search", async (query, thunkAPI) => {//query vem do componente
+    const token = thunkAPI.getState().auth.user.token//user validation for being a private method
+    const data = await photoService.searchPhotos(query, token)
+    return data
+})
+
 export const photoSlice = createSlice({
     name: "publish",
     initialState,
@@ -212,6 +219,14 @@ export const photoSlice = createSlice({
                 state.loading = true;
                 state.error = false;
             }).addCase(getPhotos.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
+                state.loading = false;
+                state.success = true;
+                state.error = null;
+                state.photos = action.payload;//é possível trafegar dados, não apenas mexer nos states exibição na tela
+            }).addCase(searchPhotos.pending, (state) => {//se a requisição foi enviada mas não obteve nenhuma resposta   
+                state.loading = true;
+                state.error = false;
+            }).addCase(searchPhotos.fulfilled, (state, action) => {//significa que a operação foi concluída com sucesso.
                 state.loading = false;
                 state.success = true;
                 state.error = null;
