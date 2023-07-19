@@ -105,7 +105,7 @@ const comment = async (data, id, token) => {//dados do comentário, id da foto e
 }
 
 //get all photos - obter todas as fotos
-const getAllPhotos = async (token) => {
+const getPhotos = async (token) => {
     const config = requestConfig("GET", null, token)
     try {
 
@@ -143,7 +143,7 @@ const photoService = {//exportando funções
     updatePhoto,
     like,
     comment,
-    getAllPhotos,
+    getPhotos,
     searchPhotos
 }
 

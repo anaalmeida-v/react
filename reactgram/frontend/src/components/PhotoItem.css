@@ -6,6 +6,10 @@
   margin-bottom: 0.2em;
 }
 
-.photo-autor {
+.photo-author {
+  text-align: left;
+}
+
+.photo-author a {
   font-weight: bold;
 }
