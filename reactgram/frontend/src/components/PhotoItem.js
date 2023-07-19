@@ -11,10 +11,12 @@ const PhotoItem = ({ photo }) => {
                 <img src={`${uploads}/photos/${photo.image}`} alt={photo.title} />
             )}
             <h2>{photo.title}</h2>
-            <p className="photo-author">
-                Publicada por:{" "}
-                <Link to={`/users/${photo.userId}`}>{photo.userName}</Link>{/*com esse link perfil do usuário poderá ser acessado*/}
-            </p>
+            {photo.image && (
+                <p className="photo-author">
+                    Publicada por:{" "}
+                    <Link to={`/users/${photo.userId}`}>{photo.userName}</Link>{/*com esse link perfil do usuário poderá ser acessado*/}
+                </p>
+            )}
         </div>
     )
 }

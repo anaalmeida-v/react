@@ -1,54 +1,68 @@
-import "./Auth.css"
+import "./Auth.css";
 
-//Components
-import { Link } from 'react-router-dom'
-import Message from '../../components/Message'//para exibir mensagens de erro
+// Components
+import { Link } from "react-router-dom";
+import Message from "../../components/Message";//para exibir mensagens de erro
 
-//Hooks
-import { useEffect, useState } from "react"
-import { useSelector, useDispatch } from 'react-redux'
+// Hooks
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-//Redux
-import { login, reset } from '../../slices/authSlice'
+// Redux
+import { login, reset } from "../../slices/authSlice";
 
 const Login = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const { loading, error } = useSelector((state) => state.auth)
+  const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const user = {
       email,
       password,
-    }
+    };
 
-    console.log(user)
+    console.log(user);
 
-    dispatch(login(user))//função de login passando usuário
-  }
+    dispatch(login(user));//função de login passando usuário
+  };
 
   //Clean all auth states - Limpar todos os estados de autenticação
   useEffect(() => {
-    dispatch(reset())
-  }, [dispatch])
+    dispatch(reset());
+  }, [dispatch]);
 
-  return <div id="login">
-    <h2>ReactGram</h2>
-    <p className="subtitle">Faça o login para ver o que há de novo.</p>
-    {email && <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} value={email} />
-      <input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value)} value={password} />
-      {!loading && <input type="submit" value="Entrar" />}
-      {loading && <input type="submit" disabled value="Aguarde..." />}
-      {error && <Message msg={error} type="error" />}
-    </form>}
-    <p>Não tem uma conta? <Link to="/register">Clique aqui</Link></p>
-  </div>
-}
+  return (
+    <div id="login">
+      <h2>ReactGram</h2>
+      <p className="subtitle">Faça o login para ver o que há de novo.</p>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="E-mail"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+        <input
+          type="password"
+          placeholder="Senha"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        {!loading && <input type="submit" value="Entrar" />}
+        {loading && <input type="submit" disabled value="Aguarde..." />}
+        {error && <Message msg={error} type="error" />}
+      </form>
+      <p>
+        Não tem uma conta? <Link to="/register">Clique aqui</Link>
+      </p>
+    </div>
+  );
+};
 
-export default Login
+export default Login;
