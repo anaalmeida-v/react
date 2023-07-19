@@ -19,12 +19,12 @@ const EditProfile = () => {
     const { user, message, error, loading } = useSelector((state) => state.user);//estados vindos do user
 
     //variáveis necessárias
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [profileImage, setProfileImage] = useState("");
-    const [bio, setBio] = useState("");
-    const [previewImage, setPreviewImage] = useState("");
+    const [name, setName] = useState(user.name ?? "");
+    const [email, setEmail] = useState(user.email ?? "");
+    const [password, setPassword] = useState(user.password ?? "");
+    const [profileImage, setProfileImage] = useState(user.profileImage ??"");
+    const [bio, setBio] = useState(user.bio ?? "");
+    const [previewImage, setPreviewImage] = useState(user.previewImage ?? "");
 
     //load user data - carregar dados do usuário
     useEffect(() => {
